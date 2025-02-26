@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="panel-container">
+        <!-- Barra lateral -->
+        <aside class="sidebar">
+            <button class="menu-btn" onclick="cargarSeccion('inventario')">📦 Inventario</button>
+            <button class="menu-btn" onclick="cargarSeccion('servicios')">🛠 Servicios</button>
+            <button class="menu-btn" onclick="cargarSeccion('personas')">👥 Personas</button>
+            <button class="menu-btn" onclick="cargarSeccion('roles')">🎭 Roles</button>
+            <button class="menu-btn logout-btn" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
+        </aside>
+
+        <!-- Contenedor de contenido dinámico -->
+        <main class="content-area">
+            <h2>Bienvenido al Panel de Control</h2>
+            <p>Selecciona una opción del menú para ver más información.</p>
+            <div id="mensajeRespuesta" class="mensaje" style="display: none;"></div>
+        </main>
+    </div>
+
+    <script src="../frontend/js/panel_control.js"></script>
+    <script src="../frontend/js/inventario.js"></script>
+    <script src="../frontend/js/servicios.js"></script>
+    <script src="../frontend/js/personas.js"></script>
+    <script src="../frontend/js/roles.js"></script>
+
+    
+</body>
+</html>

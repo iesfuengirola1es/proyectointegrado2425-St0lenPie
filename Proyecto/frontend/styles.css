@@ -1,0 +1,167 @@
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
+
+/* Configuración general */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #656667, #d7d7c8);
+    color: #212529;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Contenedor principal centrado */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Tarjetas para login y registro */
+.card.login, .card.register {
+    background: #f8d7da;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Icono superior */
+.card .icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+    color: #6c757d;
+}
+
+/* Campos de entrada */
+.card .form-control {
+    border-radius: 25px;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Botón de envío */
+.card .btn-submit {
+    background-color: #d39e9e;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    padding: 10px 20px;
+    width: 100%;
+    font-size: 18px;
+    color: #fff;
+    transition: background 0.3s ease;
+}
+
+.card .btn-submit:hover {
+    background-color: #c48c8c;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #343a40 !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: white;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #ffc107;
+}
+
+/* Footer */
+.footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Estilos para el panel de control */
+.panel-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Barra lateral */
+.sidebar {
+    width: 80px;
+    background: linear-gradient(to bottom, #6a0572, #a4508b);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 10px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.menu-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Área de contenido */
+.content-area {
+    flex-grow: 1;
+    background: linear-gradient(to right, #656667, #d7d7c8);
+    padding: 20px;
+}
+
+#formArticulo {
+    display: none; /* Ocultar por defecto */
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Panel de alertas */
+.alertas-container {
+    background: #ffe6e6;
+    border: 1px solid #ff4d4d;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.alertas-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.alertas-container li {
+    color: #d90000;
+    font-weight: bold;
+    margin: 5px 0;
+}

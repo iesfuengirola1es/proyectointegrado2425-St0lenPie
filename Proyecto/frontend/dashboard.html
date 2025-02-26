@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Grupos</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Selecciona tu Grupo o Empresa</h2>
+
+        <div class="menu">
+            <button class="btn-create" onclick="mostrarFormulario()">✅ CREAR UN NUEVO GRUPO</button>
+        </div>
+
+        <!-- Formulario emergente para crear grupo -->
+        <div id="crearGrupoForm" class="form-popup">
+            <h3>Crear un nuevo grupo</h3>
+            <input type="text" id="nombreGrupo" placeholder="Añade un nombre a tu grupo">
+            <p id="errorMensaje" class="error-message" style="color: red; display: none;">El nombre del grupo ya existe.</p>
+            
+            <button onclick="crearGrupo()">Crear</button>
+            <button onclick="cerrarFormulario()" class="close-btn">Cancelar</button>
+        </div>
+
+        <div class="group-list">
+            <h3>Mis Grupos:</h3>
+            <ul id="listaGrupos">
+                <p>Cargando grupos...</p>
+            </ul>
+        </div>
+    </div>
+
+    <script src="../frontend/js/dashboard.js"></script>
+</body>
+</html>
