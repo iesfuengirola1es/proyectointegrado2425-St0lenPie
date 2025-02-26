@@ -7,13 +7,11 @@ body {
     color: #212529;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
+    display: flex;
 }
 
-/* Contenedor principal centrado */
+/* Contenedor principal centrado (Login y Registro) */
 .container {
     display: flex;
     flex-direction: column;
@@ -23,7 +21,7 @@ body {
     max-width: 400px;
 }
 
-/* Tarjetas para login y registro */
+/* Tarjetas de Login y Registro */
 .card.login, .card.register {
     background: #f8d7da;
     border-radius: 20px;
@@ -34,7 +32,7 @@ body {
     margin-bottom: 20px;
 }
 
-/* Icono superior */
+/* Icono en el formulario */
 .card .icon {
     font-size: 50px;
     margin-bottom: 20px;
@@ -92,23 +90,59 @@ body {
     bottom: 0;
 }
 
-/* Estilos para el panel de control */
+/* Estilos para el Panel de Control */
 .panel-container {
     display: flex;
+    width: 100%;
     height: 100vh;
 }
 
-/* Barra lateral */
+/* Barra lateral fija */
 .sidebar {
-    width: 80px;
+    width: 250px;
     background: linear-gradient(to bottom, #6a0572, #a4508b);
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transition: width 0.3s ease;
 }
 
+/* Versión colapsada de la barra lateral */
+.sidebar.collapsed {
+    width: 80px;
+    transition: width 0.3s ease;
+}
+
+/* Botón para expandir/colapsar */
+.toggle-btn {
+    background: white;
+    border: none;
+    color: #6a0572;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: background 0.3s;
+    align-self: flex-start;
+}
+
+.toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Ajustar la posición de la flecha dentro del botón */
+.toggle-btn span {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+/* Estilo de los botones del menú */
 .menu-btn {
     background: none;
     border: none;
@@ -116,25 +150,50 @@ body {
     font-size: 18px;
     cursor: pointer;
     padding: 10px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+    width: 100%;
+    text-align: left;
     transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.menu-btn i {
+    font-size: 24px;
+}
+
+/* Ocultar los textos cuando la barra está colapsada */
+.sidebar.collapsed .menu-text {
+    display: none;
+}
+
+/* Ajuste del área de contenido cuando la barra está cerrada */
+.content-area {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+}
+
+.sidebar.collapsed + .content-area {
+    margin-left: 80px;
 }
 
 .menu-btn:hover {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* Área de contenido */
+/* Área de contenido que ocupa el resto de la pantalla */
 .content-area {
+    margin-left: 250px; /* Deja espacio para la barra lateral */
     flex-grow: 1;
     background: linear-gradient(to right, #656667, #d7d7c8);
     padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
 }
 
+/* Formulario emergente */
 #formArticulo {
-    display: none; /* Ocultar por defecto */
+    display: none;
     background: white;
     padding: 20px;
     border-radius: 10px;

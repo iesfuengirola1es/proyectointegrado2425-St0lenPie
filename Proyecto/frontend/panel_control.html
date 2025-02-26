@@ -10,12 +10,15 @@
 <body>
     <div class="panel-container">
         <!-- Barra lateral -->
-        <aside class="sidebar">
-            <button class="menu-btn" onclick="cargarSeccion('inventario')">📦 Inventario</button>
-            <button class="menu-btn" onclick="cargarSeccion('servicios')">🛠 Servicios</button>
-            <button class="menu-btn" onclick="cargarSeccion('personas')">👥 Personas</button>
-            <button class="menu-btn" onclick="cargarSeccion('roles')">🎭 Roles</button>
-            <button class="menu-btn logout-btn" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
+        <aside class="sidebar" id="sidebar">
+            <button class="toggle-btn" onclick="toggleSidebar()">
+                <span id="toggleArrow">←</span>
+            </button>
+            <button class="menu-btn" onclick="cargarSeccion('inventario')">📦 <span class="menu-text">Inventario</span></button>
+            <button class="menu-btn" onclick="cargarSeccion('servicios')">🛠 <span class="menu-text">Servicios</span></button>
+            <button class="menu-btn" onclick="cargarSeccion('personas')">👥 <span class="menu-text">Personas</span></button>
+            <button class="menu-btn" onclick="cargarSeccion('roles')">🎭 <span class="menu-text">Roles</span></button>
+            <button class="menu-btn logout-btn" onclick="cerrarSesion()">🚪 <span class="menu-text">Cerrar sesión</span></button>
         </aside>
 
         <!-- Contenedor de contenido dinámico -->
@@ -27,11 +30,10 @@
     </div>
 
     <script src="../frontend/js/panel_control.js"></script>
+    <script src="../frontend/js/sidebar.js"></script>
     <script src="../frontend/js/inventario.js"></script>
     <script src="../frontend/js/servicios.js"></script>
     <script src="../frontend/js/personas.js"></script>
     <script src="../frontend/js/roles.js"></script>
-
-    
 </body>
 </html>
