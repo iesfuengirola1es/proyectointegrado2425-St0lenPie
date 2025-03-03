@@ -39,13 +39,13 @@ try {
 }
 ?>
 
-<h2>Inventario</h2>
+<h2 class="titulo-inventario">📦 Inventario</h2>
 
 <?php if (usuarioTienePermiso("crear_articulos")): ?>
-    <button id="btnAgregarProducto" onclick="mostrarFormulario()">➕ Añadir Producto</button>
+    <button class="btn-agregar" onclick="mostrarFormulario()">➕ Añadir Producto</button>
 <?php endif; ?>
 
-<table>
+<table class="tabla-inventario">
     <thead>
         <tr>
             <th>Nombre</th>
@@ -69,17 +69,17 @@ try {
                 <?php if (usuarioTienePermiso("gestionar_unidades")): ?>
                     <input type="number" id="unidadesVendidas_<?= $producto['id_producto'] ?>" 
                            value="<?= $producto['unidades_vendidas'] ?>" min="0">
-                    <button onclick="actualizarUnidadesVendidas(<?= $producto['id_producto'] ?>)">Actualizar</button>
+                    <button class="btn-guardar" onclick="actualizarUnidadesVendidas(<?= $producto['id_producto'] ?>)">Actualizar</button>
                 <?php else: ?>
                     <?= htmlspecialchars($producto['unidades_vendidas']) ?>
                 <?php endif; ?>
             </td>
             <td>
                 <?php if (usuarioTienePermiso("editar_articulos")): ?>
-                    <button onclick="editarProducto(<?= $producto['id_producto'] ?>)">✏️ Editar</button>
+                    <button class="btn-editar" onclick="editarProducto(<?= $producto['id_producto'] ?>)">✏️ Editar</button>
                 <?php endif; ?>
                 <?php if (usuarioTienePermiso("eliminar_articulos")): ?>
-                    <button onclick="eliminarProducto(<?= $producto['id_producto'] ?>)">🗑 Eliminar</button>
+                    <button class="btn-eliminar" onclick="eliminarProducto(<?= $producto['id_producto'] ?>)">🗑 Eliminar</button>
                 <?php endif; ?>
             </td>
         </tr>
@@ -88,8 +88,9 @@ try {
 </table>
 
 
-<h3>📢 Alertas de Stock Bajo</h3>
+<!-- Panel de alertas -->
 <div class="alertas-container">
+    <h3 class="titulo-alertas">📢 Alertas de Stock Bajo</h3>
     <?php if (!empty($alertas)): ?>
         <ul>
             <?php foreach ($alertas as $alerta): ?>
@@ -101,19 +102,29 @@ try {
     <?php endif; ?>
 </div>
 
+
 <!-- Contenedor para mostrar mensajes -->
 <div id="mensajeRespuesta" class="mensaje" style="display: none;"></div>
 
 <!-- Formulario para agregar o editar productos -->
-<div id="formularioProducto" style="display: none;">
+<div id="formularioProducto" class="form-producto">
     <h3 id="tituloFormulario">Añadir Producto</h3>
-    <input type="hidden" id="productoID">
-    <input type="text" id="nombreProducto" placeholder="Nombre">
-    <input type="text" id="descripcionProducto" placeholder="Descripción">
-    <input type="number" id="precioProducto" placeholder="Precio (€)" step="0.01">
-    <input type="number" id="stockProducto" placeholder="Stock">
-    <input type="number" id="nivelMinimoProducto" placeholder="Nivel Mínimo">
-    <input type="number" id="unidadesVendidasProducto" placeholder="Unidades Vendidas" min="0">
-    <button id="botonGuardarProducto">💾 Guardar</button>
-    <button onclick="cerrarFormulario()">❌ Cancelar</button>
+    <div class="input-group">
+        <input type="hidden" id="productoID">
+
+        <label for="nombreProducto">Nombre del Producto</label>
+        <input type="text" id="nombreProducto" placeholder="Nombre del Producto">
+        <label for="descripcionProducto">Descripción</label>
+        <input type="text" id="descripcionProducto" placeholder="Descripción">
+        <label for="precioProducto">Precio (€)</label>
+        <input type="number" id="precioProducto" placeholder="Precio (€)" step="0.01">
+        <label for="stockProducto">Stock</label>
+        <input type="number" id="stockProducto" placeholder="Stock">
+        <label for="nivelMinimoProducto">Nivel Mínimo</label>
+        <input type="number" id="nivelMinimoProducto" placeholder="Nivel Mínimo">
+        <label for="unidadesVendidasProducto">Unidades Vendidas</label>
+        <input type="number" id="unidadesVendidasProducto" placeholder="Unidades Vendidas" min="0">
+    </div>
+    <button class="btn-guardar"  onclick="guardarProducto()">💾 Guardar</button>
+    <button class="btn-cancelar" onclick="cerrarFormulario()">❌ Cancelar</button>
 </div>

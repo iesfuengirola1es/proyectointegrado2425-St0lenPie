@@ -1,72 +1,526 @@
 @import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css');
 
-/* Configuración general */
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #656667, #d7d7c8);
-    color: #212529;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    display: flex;
-}
-
-/* Contenedor principal centrado (Login y Registro) */
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 400px;
-}
-
-/* Tarjetas de Login y Registro */
-.card.login, .card.register {
-    background: #f8d7da;
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+#formArticulo {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 50%;
+    padding: 20px;
+    position: absolute;
     text-align: center;
-    width: 100%;
-    margin-bottom: 20px;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
-/* Icono en el formulario */
-.card .icon {
-    font-size: 50px;
-    margin-bottom: 20px;
-    color: #6c757d;
-}
-
-/* Campos de entrada */
-.card .form-control {
-    border-radius: 25px;
-    padding: 12px;
-    font-size: 16px;
-    border: 1px solid #ccc;
+.alertas-container {
+    background: #ffe6e6;
+    border: 1px solid #ff4d4d;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    padding: 15px;
     text-align: center;
+}
+
+.alertas-container .titulo-alertas {
+    color: #856404;
+    font-size: 18px;
+    font-weight: bold;
     margin-bottom: 10px;
 }
 
-/* Botón de envío */
+.alertas-container li {
+    color: #d90000;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.alertas-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.bienvenida-container {
+    background: #f8f9fa;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 20px;
+    text-align: center;
+    width: 80%;
+}
+
+.bienvenida-container h2 {
+    color: #0c0572;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.bienvenida-container p {
+    color: #333;
+    font-size: 16px;
+}
+
+.btn-agregar {
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    display: block;
+    font-size: 16px;
+    margin: 10px auto;
+    padding: 10px 15px;
+    transition: background 0.3s ease;
+}
+
+.btn-agregar:hover {
+    background-color: #218838;
+}
+
+.btn-cancelar {
+    background-color: #dc3545;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    padding: 12px;
+    transition: background 0.3s ease;
+    width: 100%;
+}
+
+.btn-cancelar:hover {
+    background-color: #c82333;
+}
+
+.btn-create {
+    background-color: #28a745;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding: 12px 18px;
+    transition: background 0.3s ease;
+}
+
+.btn-create:hover {
+    background-color: #218838;
+}
+
+.btn-editar {
+    background-color: #ffc107;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+    margin-right: 5px;
+    padding: 8px 12px;
+    transition: background 0.3s ease;
+}
+
+.btn-editar:hover {
+    background-color: #e0a800;
+}
+
+.btn-eliminar {
+    background-color: #dc3545;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+.btn-eliminar:hover {
+    background-color: #c82333;
+}
+
+.btn-guardar {
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    
+    padding: 8px 12px;
+    transition: background 0.3s ease;
+    width: 100%;
+}
+
+.btn-guardar, .btn-cancelar {
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    
+    padding: 12px;
+    transition: background 0.3s ease;
+    width: 100%;
+}
+
+.btn-guardar:hover {
+    background-color: #0056b3;
+}
+
 .card .btn-submit {
     background-color: #d39e9e;
     border: none;
     border-radius: 25px;
+    color: #fff;
+    font-size: 18px;
     font-weight: bold;
     padding: 10px 20px;
-    width: 100%;
-    font-size: 18px;
-    color: #fff;
     transition: background 0.3s ease;
+    width: 100%;
 }
 
 .card .btn-submit:hover {
     background-color: #c48c8c;
 }
 
-/* Navbar */
+.card .form-control {
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding: 12px;
+    text-align: center;
+}
+
+.card .icon {
+    color: #6c757d;
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.card.login, .card.register {
+    background: #f8d7da;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 40px;
+    text-align: center;
+    width: 100%;
+}
+
+.close-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.close-btn:hover {
+    background-color: #c82333;
+}
+
+.container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.content-area {
+    background: linear-gradient(to right, #656667, #d7d7c8);
+    flex-grow: 1;
+    height: 100vh;
+    margin-left: 250px; /* Deja espacio para la barra lateral */;
+    overflow-y: auto;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+.dashboard-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    margin: 50px auto; /* Centrar en la pantalla */;
+    max-width: 600px;
+    padding: 30px;
+    text-align: center;
+    width: 90%;
+}
+
+.dashboard-container h2, .dashboard-container h3 {
+    color: #6a0572;
+    margin-bottom: 15px;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.footer {
+    background-color: #343a40;
+    bottom: 0;
+    color: white;
+    padding: 10px 0;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+}
+
+.form-emergente {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 50%;
+    max-width: 90%;
+    padding: 25px;
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+}
+
+.form-emergente .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-emergente input {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    margin: 5px 0;
+    padding: 12px;
+    width: calc(100% - 20px);
+}
+
+.form-emergente input, .form-emergente select {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    margin: 5px 0;
+    padding: 12px;
+    width: calc(100% - 20px);
+}
+
+.form-emergente label {
+    color: #6a0572;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.form-popup {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    display: none;
+    left: 50%;
+    max-width: 90%;
+    padding: 20px;
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+}
+
+.form-popup button {
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+.form-popup button:first-of-type {
+    background-color: #007bff;
+    color: white;
+}
+
+.form-popup button:first-of-type:hover {
+    background-color: #0056b3;
+}
+
+.form-popup input {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    margin: 10px 0;
+    padding: 10px;
+    width: 90%;
+}
+
+.form-producto {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 50%;
+    max-width: 90%;
+    padding: 25px;
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+}
+
+.form-producto .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-producto h3 {
+    color: #6a0572;
+    margin-bottom: 20px;
+}
+
+.form-producto input {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    margin: 10px 0;
+    padding: 12px;
+    width: calc(100% - 20px);
+}
+
+.form-servicio {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 50%;
+    max-width: 90%;
+    padding: 25px;
+    position: fixed;
+    text-align: center;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+}
+
+.form-servicio input {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    margin: 10px 0;
+    padding: 12px;
+    width: calc(100% - 20px);
+}
+
+.group-list {
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    padding: 15px;
+}
+
+.group-list li {
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 5px 0;
+    padding: 10px;
+    transition: background 0.3s ease;
+}
+
+.group-list li:hover {
+    background: #ddd;
+}
+
+.group-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-group input {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    padding: 10px;
+    width: 100%;
+}
+
+.input-group label {
+    color: #6a0572;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: -5px;
+}
+
+.inventario-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.logout-btn {
+    background: #dc3545;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 10px;
+    text-align: left;
+    transition: background 0.3s ease;
+    width: 100%;
+}
+
+.logout-btn:hover {
+    background: #c82333;
+}
+
+.logout-container {
+    margin-top: auto;
+    padding-bottom: 20px;
+    width: 100%;
+}
+
+.menu-btn {
+    align-items: center;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    font-size: 18px;
+    gap: 10px;
+    padding: 10px;
+    text-align: left;
+    transition: background 0.3s;
+    width: 100%;
+}
+
+.menu-btn i {
+    font-size: 24px;
+}
+
+.menu-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
 .navbar {
     background-color: #343a40 !important;
 }
@@ -79,148 +533,245 @@ body {
     color: #ffc107;
 }
 
-/* Footer */
-.footer {
-    background-color: #343a40;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-}
-
-/* Estilos para el Panel de Control */
 .panel-container {
     display: flex;
-    width: 100%;
     height: 100vh;
+    width: 100%;
 }
 
-/* Barra lateral fija */
-.sidebar {
-    width: 250px;
-    background: linear-gradient(to bottom, #6a0572, #a4508b);
+.permiso-label {
+    align-items: center;
+    color: #333;
+    display: flex;
+    font-size: 14px;
+    gap: 5px;
+}
+
+.rol-protegido {
+    color: #ff9800;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.select-rol {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 8px;
+    width: 100%;
+}
+
+.servicios-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
+}
+
+.sidebar {
+    align-items: center;
+    background: linear-gradient(to bottom, #07127c, #506ba4);
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 20px;
+    height: 100vh;
+    left: 0;
+    padding: 20px;
     position: fixed;
     top: 0;
-    left: 0;
-    height: 100vh;
-    transition: width 0.3s ease;
+    width: 250px;
 }
 
-/* Versión colapsada de la barra lateral */
 .sidebar.collapsed {
-    width: 80px;
     transition: width 0.3s ease;
-}
-
-/* Botón para expandir/colapsar */
-.toggle-btn {
-    background: white;
-    border: none;
-    color: #6a0572;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 50%;
-    transition: background 0.3s;
-    align-self: flex-start;
-}
-
-.toggle-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-/* Ajustar la posición de la flecha dentro del botón */
-.toggle-btn span {
-    display: inline-block;
-    transition: transform 0.3s ease;
-}
-
-/* Estilo de los botones del menú */
-.menu-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 10px;
-    width: 100%;
-    text-align: left;
-    transition: background 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.menu-btn i {
-    font-size: 24px;
-}
-
-/* Ocultar los textos cuando la barra está colapsada */
-.sidebar.collapsed .menu-text {
-    display: none;
-}
-
-/* Ajuste del área de contenido cuando la barra está cerrada */
-.content-area {
-    margin-left: 250px;
-    transition: margin-left 0.3s ease;
+    width: 80px;
 }
 
 .sidebar.collapsed + .content-area {
     margin-left: 80px;
 }
 
-.menu-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-/* Área de contenido que ocupa el resto de la pantalla */
-.content-area {
-    margin-left: 250px; /* Deja espacio para la barra lateral */
-    flex-grow: 1;
-    background: linear-gradient(to right, #656667, #d7d7c8);
-    padding: 20px;
-    height: 100vh;
-    overflow-y: auto;
-}
-
-/* Formulario emergente */
-#formArticulo {
+.sidebar.collapsed .menu-text {
     display: none;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.tabla-estilo {
+    background: white; /* Fondo sólido */;
+    border-collapse: collapse;
+    font-size: 16px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.tabla-estilo th {
+    background-color: #6a0572;
+    color: white;
+    font-weight: bold;
+}
+
+.tabla-estilo th, .tabla-estilo td {
+    border: 1px solid #ddd;
+    padding: 12px;
     text-align: center;
 }
 
-/* Panel de alertas */
-.alertas-container {
-    background: #ffe6e6;
-    border: 1px solid #ff4d4d;
-    padding: 15px;
-    border-radius: 10px;
-    margin-top: 20px;
+.tabla-inventario {
+    background: white;
+    border-collapse: collapse;
+    font-size: 16px;
+    margin-top: 15px;
+    width: 100%;
 }
 
-.alertas-container ul {
-    list-style: none;
+.tabla-inventario th {
+    background-color: #6a0572;
+    color: white;
+    font-weight: bold;
+}
+
+.tabla-inventario th, .tabla-inventario td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.tabla-servicios {
+    background: white; /* Fondo sólido */;
+    border-collapse: collapse;
+    font-size: 16px;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.tabla-servicios th {
+    background-color: #6a0572;
+    color: white;
+    font-weight: bold;
+}
+
+.tabla-servicios th, .tabla-servicios td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.titulo-inventario, .titulo-alertas {
+    color: #0c0572;
+    font-weight: bold;
+    text-align: center;
+}
+
+.titulo-seccion {
+    color: #6a0572;
+    font-weight: bold;
+    text-align: center;
+}
+
+.titulo-servicios {
+    color: #6a0572;
+    font-weight: bold;
+    text-align: center;
+}
+
+.toggle-btn {
+    align-self: flex-start;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    color: #0c0572;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px;
+    transition: background 0.3s;
+}
+
+.toggle-btn span {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+body {
+    background: linear-gradient(to right, #656667, #d7d7c8);
+    color: #212529;
+    display: flex;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    margin: 0;
     padding: 0;
 }
 
-.alertas-container li {
-    color: #d90000;
-    font-weight: bold;
-    margin: 5px 0;
+/* Asegurar que todas las celdas de la tabla tengan alineación centrada */
+.tabla-inventario th,
+.tabla-inventario td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Asegurar que la celda de "Acciones" tenga suficiente espacio */
+.tabla-inventario td:last-child {
+    min-width: 180px;
+    white-space: nowrap;
+}
+
+/* Ajustar el estilo de los botones dentro de la tabla */
+.tabla-inventario .btn {
+    display: inline-block;
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    margin: 2px;  /* Pequeño margen para evitar que se toquen entre sí */
+}
+
+/* Asegurar que los botones y inputs dentro de la celda estén bien alineados */
+.tabla-inventario td input[type="number"] {
+    width: 60px;  /* Establecer un ancho uniforme */
+    text-align: center;
+    margin-right: 5px;
+}
+
+.tabla-inventario td button {
+    vertical-align: middle;
+}
+
+/* Asegurar que los botones de edición y eliminación tengan el mismo tamaño */
+.btn-editar,
+.btn-eliminar {
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+/* Asegurar que la celda de acciones tenga suficiente espacio */
+.tabla-estilo td:last-child {
+    min-width: 180px;
+    text-align: center;
+}
+
+/* Contenedor de botones dentro de la celda */
+.acciones-usuario {
+    display: flex;
+    justify-content: center; /* Centrar los botones */
+    gap: 10px; /* Espacio uniforme entre los botones */
+    align-items: center; /* Asegurar que se alineen verticalmente */
+}
+
+/* Asegurar que ambos botones ocupen el mismo espacio */
+.acciones-usuario .btn-guardar,
+.acciones-usuario .btn-eliminar {
+    flex: 1; /* Ambos botones tienen el mismo tamaño */
+    text-align: center;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    padding: 10px 0; /* Mismo padding para ambos */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px; /* Ancho mínimo */
+    max-width: 120px; /* Evita que crezcan demasiado */
+    height: 40px; /* Altura fija para que no se desajusten */
 }

@@ -21,10 +21,11 @@ try {
 }
 ?>
 
-<h2>Servicios</h2>
-<button onclick="mostrarFormularioServicio()">➕ Añadir Servicio</button>
+<h2 class="titulo-servicios">🛠 Servicios</h2>
+<button class="btn-agregar" onclick="mostrarFormularioServicio()">➕ Añadir Servicio</button>
 
-<table>
+<!-- Tabla de servicios -->
+<table class="tabla-servicios">
     <thead>
         <tr>
             <th>Nombre</th>
@@ -40,8 +41,8 @@ try {
             <td><?= htmlspecialchars($servicio['descripcion']) ?></td>
             <td><?= number_format($servicio['precio'], 2) ?> €</td>
             <td>
-                <button onclick="editarServicio(<?= $servicio['id_servicio'] ?>)">✏️ Editar</button>
-                <button onclick="eliminarServicio(<?= $servicio['id_servicio'] ?>)">🗑 Eliminar</button>
+                <button class="btn-editar" onclick="editarServicio(<?= $servicio['id_servicio'] ?>)">✏️ Editar</button>
+                <button class="btn-eliminar" onclick="eliminarServicio(<?= $servicio['id_servicio'] ?>)">🗑 Eliminar</button>
             </td>
         </tr>
         <?php endforeach; ?>
@@ -49,12 +50,21 @@ try {
 </table>
 
 <!-- Formulario para agregar o editar servicios -->
-<div id="formularioServicio" style="display: none;">
+<div id="formularioServicio" class="form-servicio">
     <h3 id="tituloFormularioServicio">Añadir Servicio</h3>
-    <input type="hidden" id="servicioID">
-    <input type="text" id="nombreServicio" placeholder="Nombre">
-    <input type="text" id="descripcionServicio" placeholder="Descripción">
-    <input type="number" id="precioServicio" placeholder="Precio (€)" step="0.01">
-    <button onclick="guardarServicio()">💾 Guardar</button>
-    <button onclick="cerrarFormularioServicio()">❌ Cancelar</button>
+    <div class="input-group">
+        <input type="hidden" id="servicioID">
+
+        <label for="nombreServicio">Nombre del Servicio</label>
+        <input type="text" id="nombreServicio" placeholder="Nombre del servicio">
+
+        <label for="descripcionServicio">Descripción</label>
+        <input type="text" id="descripcionServicio" placeholder="Descripción del servicio">
+
+        <label for="precioServicio">Precio (€)</label>
+        <input type="number" id="precioServicio" placeholder="Precio del servicio" step="0.01">
+    </div>
+    
+    <button class="btn-guardar" onclick="guardarServicio()">💾 Guardar</button>
+    <button class="btn-cancelar" onclick="cerrarFormularioServicio()">❌ Cancelar</button>
 </div>

@@ -31,10 +31,10 @@ try {
 }
 ?>
 
-<h2>Personas en el Grupo</h2>
-<button onclick="mostrarFormularioAgregar()">➕ Agregar Usuario</button>
+<h2 class="titulo-seccion">Personas en el Grupo</h2>
+<button class="btn-agregar" onclick="mostrarFormularioAgregar()">➕ Agregar Usuario</button>
 
-<table>
+<table class="tabla-estilo">
     <thead>
         <tr>
             <th>Nombre</th>
@@ -47,9 +47,9 @@ try {
         <?php foreach ($usuarios as $usuario): ?>
         <tr>
             <td><?= htmlspecialchars($usuario['nombre']) ?></td>
-            <td><?= htmlspecialchars($usuario['correo']) ?></td>
+            <td><?= htmlspecialchars($usuario['email']) ?></td>
             <td>
-                <select id="rol_<?= $usuario['id_usuario'] ?>">
+                <select class="select-rol" id="rol_<?= $usuario['id_usuario'] ?>">
                     <?php foreach ($roles as $rol): ?>
                         <option value="<?= $rol['id_rol'] ?>" <?= ($usuario['id_rol'] == $rol['id_rol']) ? 'selected' : '' ?>>
                             <?= htmlspecialchars($rol['nombre']) ?>
@@ -58,7 +58,10 @@ try {
                 </select>
             </td>
             <td>
-                <button class="botonGuardarRol" data-usuario-id="<?= $usuario['id_usuario'] ?>">💾 Guardar Cambios</button>
+            <div class="acciones-usuario">
+                <button class="btn-guardar" onclick="guardarCambioRol(<?= $usuario['id_usuario'] ?>)">💾 Guardar</button>
+                <button class="btn-eliminar" onclick="eliminarUsuario(<?= $usuario['id_usuario'] ?>)">🗑 Eliminar</button>
+            </div>
             </td>
             
         </tr>
@@ -69,12 +72,17 @@ try {
 
 
 <!-- Formulario para agregar usuarios -->
-<div id="formularioAgregar" style="display: none;">
+<div id="formularioAgregar" class="form-emergente">
     <h3>Agregar Usuario</h3>
-    <input type="text" id="buscarUsuario" placeholder="Buscar usuario por email">
-    <select id="usuarioSeleccionado">
-        <option value="">Seleccionar usuario...</option>
-    </select>
-    <button onclick="agregarUsuario()">📩 Agregar</button>
-    <button onclick="cerrarFormularioAgregar()">❌ Cancelar</button>
+    <div class="input-group">
+        <label for="buscarUsuario">Buscar usuario por email</label>
+        <input type="text" id="buscarUsuario" placeholder="Ejemplo: usuario@email.com">
+
+        <label for="usuarioSeleccionado">Seleccionar usuario</label>
+        <select id="usuarioSeleccionado">
+            <option value="">Seleccionar usuario...</option>
+        </select>
+    </div>
+    <button class="btn-guardar" onclick="agregarUsuario()">📩 Agregar</button>
+    <button class="btn-cancelar" onclick="cerrarFormularioAgregar()">❌ Cancelar</button>
 </div>

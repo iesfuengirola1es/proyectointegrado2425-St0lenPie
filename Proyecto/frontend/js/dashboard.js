@@ -7,19 +7,47 @@ function cerrarFormulario() {
     document.getElementById('errorMensaje').style.display = 'none';
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    cargarGrupos();
+});
+
 function cargarGrupos() {
-    $.get("../backend/dashboard.php", function(data) {
-        if (data.includes("error:")) {
-            console.error(data);
-            $("#listaGrupos").html("<p>Error al cargar los grupos.</p>");
-        } else {
-            $("#listaGrupos").html(data);
-        }
-    }).fail(function() {
-        console.error("Error en la solicitud AJAX.");
-        $("#listaGrupos").html("<p>Error al obtener la lista de grupos.</p>");
-    });
+    fetch('../backend/dashboard.php')
+        .then(response => response.json())
+        .then(data => {
+            let listaGrupos = document.getElementById("listaGrupos");
+            listaGrupos.innerHTML = "";
+
+            if (data.error) {
+                listaGrupos.innerHTML = `<p class="error-message">${data.error}</p>`;
+                return;
+            }
+
+            if (data.grupos.length === 0) {
+                listaGrupos.innerHTML = "<p>No perteneces a ningún grupo.</p>";
+                return;
+            }
+
+            data.grupos.forEach(grupo => {
+                let li = document.createElement("li");
+                li.textContent = grupo.nombre;
+                li.classList.add("grupo-item");
+                
+                // ✅ Aseguramos que el ID del grupo se pase en la URL correctamente
+                li.onclick = function () {
+                    console.log(`🔹 Redirigiendo a panel_control.html con id_empresa=${grupo.id_empresa}`);
+                    window.location.href = `panel_control.html?id_empresa=${grupo.id_empresa}`;
+                };
+
+                listaGrupos.appendChild(li);
+            });
+        })
+        .catch(error => {
+            console.error("Error al cargar los grupos:", error);
+            document.getElementById("listaGrupos").innerHTML = `<p class="error-message">Error al cargar los grupos.</p>`;
+        });
 }
+
 
 
 function crearGrupo() {

@@ -18,13 +18,19 @@
             <button class="menu-btn" onclick="cargarSeccion('servicios')">🛠 <span class="menu-text">Servicios</span></button>
             <button class="menu-btn" onclick="cargarSeccion('personas')">👥 <span class="menu-text">Personas</span></button>
             <button class="menu-btn" onclick="cargarSeccion('roles')">🎭 <span class="menu-text">Roles</span></button>
-            <button class="menu-btn logout-btn" onclick="cerrarSesion()">🚪 <span class="menu-text">Cerrar sesión</span></button>
+        
+            <!-- Botón de Logout en la base de la barra lateral -->
+            <div class="logout-container">
+                <button class="menu-btn logout-btn" onclick="cerrarSesion()">🚪 <span class="menu-text">Cerrar sesión</span></button>
+            </div>
         </aside>
 
         <!-- Contenedor de contenido dinámico -->
         <main class="content-area">
-            <h2>Bienvenido al Panel de Control</h2>
-            <p>Selecciona una opción del menú para ver más información.</p>
+            <div class="bienvenida-container">
+                <h2 id="mensajeBienvenida">Bienvenido al panel de control de <span id="nombreGrupo"></span></h2>
+                <p id="mensajeInstruccion">Selecciona una opción del menú para ver más información.</p>
+            </div>
             <div id="mensajeRespuesta" class="mensaje" style="display: none;"></div>
         </main>
     </div>

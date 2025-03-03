@@ -15,16 +15,6 @@
             <button class="btn-create" onclick="mostrarFormulario()">✅ CREAR UN NUEVO GRUPO</button>
         </div>
 
-        <!-- Formulario emergente para crear grupo -->
-        <div id="crearGrupoForm" class="form-popup">
-            <h3>Crear un nuevo grupo</h3>
-            <input type="text" id="nombreGrupo" placeholder="Añade un nombre a tu grupo">
-            <p id="errorMensaje" class="error-message" style="color: red; display: none;">El nombre del grupo ya existe.</p>
-            
-            <button onclick="crearGrupo()">Crear</button>
-            <button onclick="cerrarFormulario()" class="close-btn">Cancelar</button>
-        </div>
-
         <div class="group-list">
             <h3>Mis Grupos:</h3>
             <ul id="listaGrupos">
@@ -35,4 +25,5 @@
 
     <script src="../frontend/js/dashboard.js"></script>
 </body>
+
 </html>

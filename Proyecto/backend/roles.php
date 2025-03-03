@@ -21,13 +21,14 @@ try {
 }
 ?>
 
-<h2>Gestión de Roles</h2>
+<h2 class="titulo-seccion">🎭 Gestión de Roles</h2>
 
 <?php if (usuarioTienePermiso("crear_roles")): ?>
-    <button onclick="mostrarFormularioRol()">➕ Crear Rol</button>
+    <button class="btn-agregar" onclick="mostrarFormularioRol()">➕ Crear Rol</button>
 <?php endif; ?>
 
-<table>
+<!-- Tabla de roles -->
+<table class="tabla-estilo">
     <thead>
         <tr>
             <th>Nombre del Rol</th>
@@ -40,10 +41,10 @@ try {
             <td><?= htmlspecialchars($rol['nombre']) ?></td>
             <td>
                 <?php if ($rol['id_rol'] != 1 && $rol['id_rol'] != 2): // No mostrar botones para "Administrador" y "Usuario Nuevo" ?>
-                    <button onclick="editarRol(<?= $rol['id_rol'] ?>)">✏️ Editar</button>
-                    <button onclick="eliminarRol(<?= $rol['id_rol'] ?>)">🗑 Eliminar</button>
+                    <button class="btn-editar" onclick="editarRol(<?= $rol['id_rol'] ?>)">✏️ Editar</button>
+                    <button class="btn-eliminar" onclick="eliminarRol(<?= $rol['id_rol'] ?>)">🗑 Eliminar</button>
                 <?php else: ?>
-                    🔒 Rol Protegido
+                    <span class="rol-protegido">🔒 Rol Protegido</span>
                 <?php endif; ?>
             </td>
         </tr>
@@ -51,23 +52,26 @@ try {
     </tbody>
 </table>
 
-
 <!-- Formulario para crear o editar roles -->
-<div id="formularioRol" style="display: none;">
+<div id="formularioRol" class="form-emergente">
     <h3 id="tituloFormularioRol">Añadir Rol</h3>
-    <input type="hidden" id="rolID">
-    <input type="text" id="nombreRol" placeholder="Nombre del Rol">
-    
-    <h4>Seleccionar Permisos:</h4>
-    <div id="listaPermisos">
-        <?php foreach ($permisos as $permiso): ?>
-            <label>
-                <input type="checkbox" class="permisoCheckbox" value="<?= $permiso['id_permiso'] ?>"> 
-                <?= htmlspecialchars($permiso['nombre']) ?> - <?= htmlspecialchars($permiso['descripcion']) ?>
-            </label><br>
-        <?php endforeach; ?>
+    <div class="input-group">
+        <input type="hidden" id="rolID">
+
+        <label for="nombreRol">Nombre del Rol</label>
+        <input type="text" id="nombreRol" placeholder="Ejemplo: Gerente">
+
+        <h4>Seleccionar Permisos:</h4>
+        <div id="listaPermisos">
+            <?php foreach ($permisos as $permiso): ?>
+                <label class="permiso-label">
+                    <input type="checkbox" class="permisoCheckbox" value="<?= $permiso['id_permiso'] ?>"> 
+                    <?= htmlspecialchars($permiso['nombre']) ?> - <?= htmlspecialchars($permiso['descripcion']) ?>
+                </label><br>
+            <?php endforeach; ?>
+        </div>
     </div>
     
-    <button onclick="guardarRol()">💾 Guardar</button>
-    <button onclick="cerrarFormularioRol()">❌ Cancelar</button>
+    <button class="btn-guardar" onclick="guardarRol()">💾 Guardar</button>
+    <button class="btn-cancelar" onclick="cerrarFormularioRol()">❌ Cancelar</button>
 </div>

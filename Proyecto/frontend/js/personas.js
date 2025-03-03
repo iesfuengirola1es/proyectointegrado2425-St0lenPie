@@ -197,8 +197,11 @@ function guardarCambioRol(usuarioID) {
             console.error("❌ Error en el servidor:", response);
             mostrarMensaje(response.replace("error:", ""), "error");
         } else {
-            mostrarMensaje(response.replace("success:", ""), "success");
-            cargarSeccion('personas'); // Recargar lista de usuarios
+            mostrarMensaje("✅ Rol actualizado correctamente.", "success");
+
+            // ✅ Actualizar solo el campo de rol sin recargar toda la sección
+            $("#rol_" + usuarioID).prop("disabled", true);
+            setTimeout(() => $("#rol_" + usuarioID).prop("disabled", false), 2000);
         }
     }).fail(function(xhr, status, error) {
         console.error("❌ Error en la solicitud AJAX:", status, error);
