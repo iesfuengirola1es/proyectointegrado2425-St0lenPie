@@ -36,7 +36,8 @@ function cargarGrupos() {
                 // ✅ Aseguramos que el ID del grupo se pase en la URL correctamente
                 li.onclick = function () {
                     console.log(`🔹 Redirigiendo a panel_control.html con id_empresa=${grupo.id_empresa}`);
-                    window.location.href = `panel_control.html?id_empresa=${grupo.id_empresa}`;
+                   // window.location.href = `panel_control.html?id_empresa=${grupo.id_empresa}`;
+                    window.location.href = `../backend/panel_control.php?id_empresa=${grupo.id_empresa}`;
                 };
 
                 listaGrupos.appendChild(li);

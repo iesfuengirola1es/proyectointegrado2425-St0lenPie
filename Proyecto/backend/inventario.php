@@ -15,7 +15,7 @@ if (!usuarioTienePermiso("crear_articulos") &&
     die("Acceso denegado: No tienes permiso para gestionar el inventario.");
 }
 
-$grupo_id = $_GET['id_empresa'] ?? null;
+$grupo_id = $_SESSION['id_empresa'] ?? null;
 
 if (!$grupo_id) {
     die("Error: Grupo no especificado.");
@@ -28,7 +28,7 @@ try {
     $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Obtener productos con stock bajo
-    $stmtAlertas = $pdo->prepare("SELECT nombre FROM productos WHERE id_empresa = ? AND stock <= nivel_minimo");
+    $stmtAlertas = $pdo->prepare("SELECT nombre FROM productos WHERE id_empresa = ? AND (stock-unidades_vendidas) <= nivel_minimo");
     $stmtAlertas->execute([$grupo_id]);
     $alertas = $stmtAlertas->fetchAll(PDO::FETCH_ASSOC);
 
@@ -135,4 +135,6 @@ try {
     </div>
     <button class="btn-guardar"  id="botonGuardarProducto" onclick="guardarProducto()">💾 Guardar</button>
     <button class="btn-cancelar" onclick="cerrarFormulario()">❌ Cancelar</button>
+    <!-- Contenedor para mostrar mensajes -->
+<div id="mensajeRespuestaEditar" class="mensaje" style="display: none;"></div>
 </div>

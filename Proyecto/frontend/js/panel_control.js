@@ -28,12 +28,16 @@ function obtenerGrupoId() {
     return urlParams.get('id_empresa');
 }
 
+function cambiarEmpresa(){
+    window.location.href = "../frontend/dashboard.html";
+}
+
 function cerrarSesion() {
     fetch('../backend/logout.php', { method: 'POST' })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                window.location.href = "../frontend/login.html";
+                window.location.href = "../frontend";
             } else {
                 console.error("❌ Error al cerrar sesión:", data.error);
             }

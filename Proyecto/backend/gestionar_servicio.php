@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'config.php';
+require 'verificar_permisos.php';
 
 if (!isset($_SESSION['user_id'])) {
     die("Acceso no autorizado.");
@@ -11,19 +12,22 @@ $id_servicio = $_POST['id'] ?? $_GET['id'] ?? null;
 $nombre = trim($_POST['nombre'] ?? '');
 $descripcion = trim($_POST['descripcion'] ?? '');
 $precio = $_POST['precio'] ?? null;
-$id_empresa = $_POST['id_empresa'] ?? null;
+$id_empresa = $_SESSION['id_empresa'] ?? null;
 
 try {
     if ($accion === "crear" || $accion === "editar") {
         if (empty($nombre) || empty($precio)) {
-            die("error: Todos los campos son obligatorios.");
+             die("error: Todos los campos son obligatorios.");
         }
 
         // **Validación de nombre duplicado**
         if ($accion === "crear") {
+           
+
             $stmt = $pdo->prepare("SELECT COUNT(*) FROM servicios WHERE nombre = ? AND id_empresa = ?");
             $stmt->execute([$nombre, $id_empresa]);
         } else {
+           
             $stmt = $pdo->prepare("SELECT COUNT(*) FROM servicios WHERE nombre = ? AND id_empresa = ? AND id_servicio != ?");
             $stmt->execute([$nombre, $id_empresa, $id_servicio]);
         }
@@ -36,17 +40,32 @@ try {
     }
 
     if ($accion === "crear") {
+         if (!usuarioTienePermiso("crear_servicios")) {
+                die("error: No tienes permiso para crear servicios.");
+            }
         $stmt = $pdo->prepare("INSERT INTO servicios (nombre, descripcion, precio, id_empresa) VALUES (?, ?, ?, ?)");
         $stmt->execute([$nombre, $descripcion, $precio, $id_empresa]);
         echo "success: Servicio agregado exitosamente.";
+
+
     } elseif ($accion === "editar" && $id_servicio) {
+         if (!usuarioTienePermiso("editar_servicios")) {
+                die("error: No tienes permiso para editar servicios.");
+            }
         $stmt = $pdo->prepare("UPDATE servicios SET nombre=?, descripcion=?, precio=? WHERE id_servicio=?");
         $stmt->execute([$nombre, $descripcion, $precio, $id_servicio]);
         echo "success: Servicio actualizado correctamente.";
+
+
     } elseif ($accion === "eliminar" && $id_servicio) {
+         if (!usuarioTienePermiso("eliminar_servicios")) {
+                die("error: No tienes permiso para eliminar servicios.");
+            }
         $stmt = $pdo->prepare("DELETE FROM servicios WHERE id_servicio = ?");
         $stmt->execute([$id_servicio]);
         echo "success: Servicio eliminado correctamente.";
+
+
     } elseif ($accion === "obtener" && $id_servicio) {
         $stmt = $pdo->prepare("SELECT * FROM servicios WHERE id_servicio = ?");
         $stmt->execute([$id_servicio]);

@@ -33,11 +33,13 @@ try {
 } catch (PDOException $e) {
     die("Error al obtener servicios: " . $e->getMessage());
 }
+
 ?>
 
 <h2 class="titulo-servicios">🛠 Servicios</h2>
+  <?php if (usuarioTienePermiso("crear_servicios")): ?>
 <button class="btn-agregar" onclick="mostrarFormularioServicio()">➕ Añadir Servicio</button>
-
+   <?php endif; ?>
 <!-- Tabla de servicios -->
 <table class="tabla-servicios">
     <thead>
@@ -55,8 +57,20 @@ try {
             <td><?= htmlspecialchars($servicio['descripcion']) ?></td>
             <td><?= number_format($servicio['precio'], 2) ?> €</td>
             <td>
-                <button class="btn-editar" onclick="editarServicio(<?= $servicio['id_servicio'] ?>)">✏️ Editar</button>
-                <button class="btn-eliminar" onclick="eliminarServicio(<?= $servicio['id_servicio'] ?>)">🗑 Eliminar</button>
+              
+               <?php if (usuarioTienePermiso("editar_servicios")): ?>
+               
+                    <button class="btn-editar"  onclick="editarServicio(<?= $servicio['id_servicio'] ?>)">✏️ Editar</button>
+               <?php endif; ?>
+
+               <?php if (usuarioTienePermiso("eliminar_servicios")): ?>
+                    
+                    <button class="btn-eliminar" onclick="eliminarServicio(<?= $servicio['id_servicio'] ?>)">🗑 Eliminar</button>
+                <?php endif; ?>
+               
+              
+               
+                
             </td>
         </tr>
         <?php endforeach; ?>
@@ -81,4 +95,5 @@ try {
     
     <button class="btn-guardar" onclick="guardarServicio()">💾 Guardar</button>
     <button class="btn-cancelar" onclick="cerrarFormularioServicio()">❌ Cancelar</button>
+    <div id="mensajeRespuesta" class="mensaje" style="display: none;"></div>
 </div>

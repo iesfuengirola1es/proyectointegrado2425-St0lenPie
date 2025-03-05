@@ -2,7 +2,7 @@
 session_start();
 require 'config.php';
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id'] )) {
     die("Acceso no autorizado.");
 }
 
@@ -16,7 +16,7 @@ function usuarioTienePermiso($permiso) {
     global $pdo;
 
     $user_id = $_SESSION['user_id'];
-    $grupo_id = $_REQUEST['id_empresa'] ?? null;
+    $grupo_id = $_SESSION['id_empresa'];
 
     // Obtener el rol del usuario
     $stmt = $pdo->prepare("SELECT rol FROM usuarios_grupos WHERE id_usuario = ? AND id_empresa = ?");
@@ -76,7 +76,7 @@ function obtenerPermisosUsuario() {
 function esAdministrador() {
     global $pdo;
     $user_id = $_SESSION['user_id'];
-    $grupo_id = $_GET['id_empresa'] ?? null;
+    $grupo_id = $_SESSION['id_empresa'];
 
     $stmt = $pdo->prepare("
         SELECT COUNT(*) 

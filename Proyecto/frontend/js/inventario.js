@@ -53,6 +53,9 @@ function cerrarFormulario() {
 function mostrarMensaje(mensaje, tipo) {
     $("#mensajeRespuesta").text(mensaje).removeClass().addClass(tipo).show();
 }
+function mostrarMensajeEditar(mensaje, tipo) {
+    $("#mensajeRespuestaEditar").text(mensaje).removeClass().addClass(tipo).show();
+}
 
 function guardarProducto() {
     let id = $("#productoID").val();
@@ -66,7 +69,7 @@ function guardarProducto() {
     let grupoID = obtenerGrupoId();
 
     if (nombre.trim() === "" || precio === "" || stock === "" || nivelMinimo === "") {
-        mostrarMensaje("Todos los campos son obligatorios.", "error");
+        mostrarMensajeEditar("Todos los campos son obligatorios.", "error");
         return;
     }
 
@@ -82,14 +85,14 @@ function guardarProducto() {
         id_empresa: grupoID
     }, function(response) {
         if (response.includes("error:")) {
-            mostrarMensaje(response.replace("error:", ""), "error");
+            mostrarMensajeEditar(response.replace("error:", ""), "error");
         } else {
-            mostrarMensaje(response.replace("success:", ""), "success");
+            mostrarMensajeEditar(response.replace("success:", ""), "success");
             cargarSeccion('inventario');
             cerrarFormulario();
         }
     }).fail(function() {
-        mostrarMensaje("Error en la solicitud al servidor.", "error");
+        mostrarMensajeEditar("Error en la solicitud al servidor.", "error");
     });
 }
 
@@ -97,7 +100,7 @@ function guardarProducto() {
 function editarProducto(id) {
     console.log("🟡 Solicitando datos para editar el producto con ID:", id);
 
-    $.get("../backend/gestionar_articulo.php", { accion: "obtener", id: id,id_empresa:obtenerGrupoId() }, function(data) {
+    $.get("../backend/gestionar_articulo.php", { accion: "obtener", id: id }, function(data) {
         let producto;
         try {
             producto = JSON.parse(data);
@@ -136,7 +139,7 @@ function editarProducto(id) {
         }
     }).fail(function() {
         console.error("❌ Error al obtener los datos del producto.");
-        mostrarMensaje("Error al obtener los datos del producto.", "error");
+        mostrarMensajeEditar("Error al obtener los datos del producto.", "error");
     });
 }
 
@@ -146,7 +149,7 @@ function eliminarProducto(id) {
     if (!confirm("¿Estás seguro de eliminar este producto?")) return;
 
     $.post("../backend/gestionar_articulo.php", { accion: "eliminar", id: id,
-        id_empresa: obtenerGrupoId() }, function(response) {
+       }, function(response) {
         if (response.includes("error:")) {
             mostrarMensaje(response.replace("error:", ""), "error");
         } else {
@@ -166,12 +169,11 @@ function actualizarUnidadesVendidas(id) {
     $.post("../backend/gestionar_articulo.php", {
         accion: "actualizar_unidades",
         id: id,
-        unidades_vendidas: nuevasUnidades,
-        id_empresa: obtenerGrupoId()
+        unidades_vendidas: nuevasUnidades
     }, function (response) {
         console.log("🟢 Respuesta del servidor al actualizar unidades:", response);
         if (response.includes("error:")) {
-            mostrarMensaje(response.replace("error:", ""), "error");
+            mostrarMensajeEditar(response.replace("error:", ""), "error");
         } else {
             mostrarMensaje(response.replace("success:", ""), "success");
             cargarSeccion('inventario');

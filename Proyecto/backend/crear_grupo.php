@@ -24,9 +24,9 @@ try {
     }
 
     // Insertar el grupo en la base de datos
-    $stmt = $pdo->prepare("INSERT INTO empresa (nombre, clave_acceso) VALUES (?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO empresa (nombre, clave_acceso,id_creador) VALUES (?, ?,?)");
     $claveAcceso = bin2hex(random_bytes(5));
-    $stmt->execute([$nombreGrupo, $claveAcceso]);
+    $stmt->execute([$nombreGrupo, $claveAcceso,$user_id]);
 
     $grupo_id = $pdo->lastInsertId();
 

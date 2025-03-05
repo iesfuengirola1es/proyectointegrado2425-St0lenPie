@@ -144,8 +144,7 @@ function agregarUsuario() {
 
     $.post("../backend/gestionar_personas.php", {
         accion: "agregar_usuario",
-        id_usuario: usuarioID,
-        id_empresa: grupoID
+        id_usuario: usuarioID
     }, function(response) {
         if (response.includes("error:")) {
             mostrarMensaje(response.replace("error:", ""), "error");
@@ -162,8 +161,7 @@ function eliminarUsuario(id) {
 
     $.post("../backend/gestionar_personas.php", {
         accion: "eliminar_usuario",
-        id_usuario: id,
-        id_empresa: obtenerGrupoId()
+        id_usuario: id
     }, function(response) {
         if (response.includes("error:")) {
             mostrarMensaje(response.replace("error:", ""), "error");
@@ -189,8 +187,7 @@ function guardarCambioRol(usuarioID) {
     $.post("../backend/gestionar_personas.php", {
         accion: "cambiar_rol",
         id_usuario: usuarioID,
-        id_rol: nuevoRol,
-        id_empresa:obtenerGrupoId()
+        id_rol: nuevoRol
     }, function(response) {
         console.log("🟢 Respuesta del servidor al cambiar rol:", response);
 

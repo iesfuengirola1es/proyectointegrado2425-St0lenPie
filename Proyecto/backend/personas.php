@@ -18,7 +18,7 @@ if (!usuarioTienePermiso("gestionar_personas")) {
     ");
 }
 
-$grupo_id = $_GET['id_empresa'] ?? null;
+$grupo_id = $_SESSION['id_empresa'] ?? null;
 
 if (!$grupo_id) {
     die("Error: Grupo no especificado.");
@@ -36,11 +36,10 @@ try {
 
     // Obtener el creador del grupo
     $stmtCreador = $pdo->prepare("
-        SELECT id_usuario 
-        FROM usuarios_grupos 
+        SELECT id_creador 
+        FROM empresa 
         WHERE id_empresa = ? 
-        AND rol = (SELECT id_rol FROM roles WHERE nombre = 'Administrador')
-        LIMIT 1
+       
     ");
     $stmtCreador->execute([$grupo_id]);
     $creador = $stmtCreador->fetchColumn();
@@ -67,6 +66,7 @@ try {
             <td><?= htmlspecialchars($usuario['nombre']) ?></td>
             <td><?= htmlspecialchars($usuario['email']) ?></td>
             <td>
+                 <?php if ($usuario['id_usuario'] != $creador): // No permitir eliminar al creador ?>
                 <select class="select-rol" id="rol_<?= $usuario['id_usuario'] ?>">
                     <?php foreach ($roles as $rol): ?>
                         <option value="<?= $rol['id_rol'] ?>" <?= ($usuario['id_rol'] == $rol['id_rol']) ? 'selected' : '' ?>>
@@ -74,15 +74,17 @@ try {
                         </option>
                     <?php endforeach; ?>
                 </select>
+                 <?php endif; ?>
             </td>
             <td>
                 <div class="acciones-usuario">
-                    <button class="btn-guardar" onclick="guardarCambioRol(<?= $usuario['id_usuario'] ?>)">💾 Guardar</button>
+                    
 
                     <?php if ($usuario['id_usuario'] != $creador): // No permitir eliminar al creador ?>
+                        <button class="btn-guardar" onclick="guardarCambioRol(<?= $usuario['id_usuario'] ?>)">💾 Guardar</button>
                         <button class="btn-eliminar" onclick="eliminarUsuario(<?= $usuario['id_usuario'] ?>)">🗑 Eliminar</button>
                     <?php else: ?>
-                        <button class="btn-eliminar btn-desactivado" title="No puedes eliminar al creador del grupo." disabled>🗑 Eliminar</button>
+                       <span class="rol-protegido">🔒 Usuario Creador Protegido</span>
                     <?php endif; ?>
                 </div>
             </td>
@@ -108,4 +110,5 @@ try {
     </div>
     <button class="btn-guardar" onclick="agregarUsuario()">📩 Agregar</button>
     <button class="btn-cancelar" onclick="cerrarFormularioAgregar()">❌ Cancelar</button>
+    <div id="mensajeRespuesta" class="mensaje" style="display: none;"></div>
 </div>

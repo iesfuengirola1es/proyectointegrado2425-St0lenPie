@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'config.php';
+require 'verificar_permisos.php';
 
 if (!isset($_SESSION['user_id'])) {
     die("Acceso no autorizado.");
@@ -8,7 +9,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $accion = $_POST['accion'] ?? $_GET['accion'] ?? null;
 $id_usuario = $_POST['id_usuario'] ?? $_GET['id_usuario'] ?? null;
-$id_empresa = $_POST['id_empresa'] ?? null;
+$id_empresa = $_SESSION['id_empresa'] ?? null;
 $email = $_GET['email'] ?? '';
 
 try {
@@ -18,25 +19,22 @@ try {
         $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($usuarios);
     } elseif ($accion === "agregar_usuario" && $id_usuario && $id_empresa) {
+
+          if (!usuarioTienePermiso("gestionar_personas")) {
+            die("error: No tienes permiso para crear usuarios.");
+          }
         // Verificar si el usuario ya está en el grupo
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM usuarios WHERE id_usuario = ? AND id_empresa = ?");
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM usuarios_grupos WHERE id_usuario = ? AND id_empresa = ?");
         $stmt->execute([$id_usuario, $id_empresa]);
     
         if ($stmt->fetchColumn() > 0) {
             die("error: El usuario ya pertenece al grupo.");
         }
     
-        // Obtener el ID del creador del grupo
-        $stmt = $pdo->prepare("SELECT id_usuario FROM usuarios WHERE id_empresa = ? AND id_rol = 1");
-        $stmt->execute([$id_empresa]);
-        $id_creador = $stmt->fetchColumn();
+       
+        //rol usuario nuevo
+        $id_rol_asignado = 2;
     
-        // Si el usuario agregado NO es el creador, asignarle el rol "Usuario Nuevo" (id_rol = 2)
-        $id_rol_asignado = ($id_usuario == $id_creador) ? 1 : 2;
-    
-        // Asignar el grupo y el rol al usuario
-       /* $stmt = $pdo->prepare("UPDATE usuarios SET id_empresa = ?, id_rol = ? WHERE id_usuario = ?");
-        $stmt->execute([$id_empresa, $id_rol_asignado, $id_usuario]);*/
 
 // Insertar relación en usuarios_grupos con el rol de creador
     $stmt = $pdo->prepare("INSERT INTO usuarios_grupos (id_usuario, id_empresa, rol) VALUES (?, ?, ?)");
@@ -47,8 +45,11 @@ try {
         echo "success: Usuario agregado al grupo con rol asignado.";
             
     } elseif ($accion === "eliminar_usuario" && $id_usuario && $id_empresa) {
+        if (!usuarioTienePermiso("gestionar_personas")) {
+            die("error: No tienes permiso para eliminar usuarios.");
+          }
         // Verificar si el usuario es el creador del grupo
-        $stmt = $pdo->prepare("SELECT id_usuario FROM usuarios WHERE id_empresa = ? ORDER BY id_usuario ASC LIMIT 1");
+        $stmt = $pdo->prepare("SELECT id_creador FROM empresa WHERE id_empresa = ? ");
         $stmt->execute([$id_empresa]);
         $creador = $stmt->fetchColumn();
 
@@ -56,15 +57,33 @@ try {
             die("error: No puedes eliminar al creador del grupo.");
         }
 
-      /*  $stmt = $pdo->prepare("UPDATE usuarios SET id_empresa = NULL WHERE id_usuario = ?");
-        $stmt->execute([$id_usuario]);*/
-$stmt = $pdo->prepare("delete usuarios_grupos where id_empresa = ? and id_usuario = ? ");
-        $stmt->execute([$id_empresa,$id_usuario]);
+        $stmt = $pdo->prepare("DELETE FROM usuarios_grupos WHERE id_empresa=? AND id_usuario=?");
+        $resultado = $stmt->execute([$id_empresa,$id_usuario]);
 
-        echo "success: Usuario eliminado del grupo.";
+    
+        if ($resultado) {
+            error_log("🟢 Rol del usuario ID $id_usuario actualizado a ID de rol $id_rol.");
+            echo "success: Usuario eliminado correctamente.";
+        } else {
+            error_log("❌ Error al eliminar usuario ID $id_usuario.");
+            echo "error: No se pudo eliminar.";
+        }
+       
 
 
     } elseif ($accion === "cambiar_rol") {
+         if (!usuarioTienePermiso("gestionar_personas")) {
+            die("error: No tienes permiso para modificar roles.");
+          }
+          // Verificar si el usuario es el creador del grupo
+        $stmt = $pdo->prepare("SELECT id_creador FROM empresa WHERE id_empresa = ? ");
+        $stmt->execute([$id_empresa]);
+        $creador = $stmt->fetchColumn();
+
+        if ($id_usuario == $creador) {
+            die("error: No puedes modificar al creador del grupo.");
+        }
+
         error_log("🟡 Solicitud de cambio de rol recibida en gestionar_personas.php");
         error_log("🔍 Datos recibidos: " . print_r($_POST, true));
     

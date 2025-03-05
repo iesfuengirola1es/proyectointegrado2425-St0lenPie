@@ -14,7 +14,7 @@ $descripcion = trim($_POST['descripcion'] ?? '');
 $precio = $_POST['precio'] ?? null;
 $stock = $_POST['stock'] ?? null;
 $nivel_minimo = $_POST['nivel_minimo'] ?? null;
-$unidades_vendidas = $_POST['unidades_vendidas'] ?? null;
+$unidades_vendidas = $_POST['unidades_vendidas'] ?? 0;
 $id_empresa = $_REQUEST['id_empresa'] ?? null;
 
 error_log("🟡 Datos POST recibidos en `gestionar_articulo.php`: " . print_r($_POST, true));
@@ -46,7 +46,7 @@ try {
         $stmt = $pdo->prepare("INSERT INTO productos (nombre, descripcion, precio, stock, nivel_minimo, unidades_vendidas, id_empresa) 
                                VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-        $resultado = $stmt->execute([$nombre, $descripcion, $precio, $stock, $nivel_minimo, 0, $id_empresa]);
+        $resultado = $stmt->execute([$nombre, $descripcion, $precio, $stock, $nivel_minimo, $unidades_vendidas , $id_empresa]);
 
         if ($resultado) {
             error_log("🟢 Producto agregado correctamente: $nombre en empresa ID: $id_empresa");
@@ -67,8 +67,8 @@ try {
             die(json_encode(["error" => "Todos los campos son obligatorios para editar un producto."]));
         }
 
-        $stmt = $pdo->prepare("UPDATE productos SET nombre=?, descripcion=?, precio=?, stock=?, nivel_minimo=? WHERE id_producto=?");
-        $resultado = $stmt->execute([$nombre, $descripcion, $precio, $stock, $nivel_minimo, $id_producto]);
+        $stmt = $pdo->prepare("UPDATE productos SET nombre=?, descripcion=?, precio=?, stock=?, nivel_minimo=?,unidades_vendidas=? WHERE id_producto=?");
+        $resultado = $stmt->execute([$nombre, $descripcion, $precio, $stock, $nivel_minimo, $unidades_vendidas,$id_producto]);
 
         if ($resultado) {
             error_log("🟢 Producto con ID $id_producto actualizado correctamente.");
