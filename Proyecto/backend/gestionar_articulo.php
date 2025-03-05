@@ -15,7 +15,7 @@ $precio = $_POST['precio'] ?? null;
 $stock = $_POST['stock'] ?? null;
 $nivel_minimo = $_POST['nivel_minimo'] ?? null;
 $unidades_vendidas = $_POST['unidades_vendidas'] ?? null;
-$id_empresa = $_POST['id_empresa'] ?? null;
+$id_empresa = $_REQUEST['id_empresa'] ?? null;
 
 error_log("🟡 Datos POST recibidos en `gestionar_articulo.php`: " . print_r($_POST, true));
 

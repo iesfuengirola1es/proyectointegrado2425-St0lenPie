@@ -31,7 +31,7 @@ try {
     $grupo_id = $pdo->lastInsertId();
 
     // Insertar relación en usuarios_grupos con el rol de creador
-    $stmt = $pdo->prepare("INSERT INTO usuarios_grupos (id_usuario, id_empresa, rol) VALUES (?, ?, 'creador')");
+    $stmt = $pdo->prepare("INSERT INTO usuarios_grupos (id_usuario, id_empresa, rol) VALUES (?, ?, 1)");
     $stmt->execute([$user_id, $grupo_id]);
 
     echo "success: Grupo creado exitosamente.";

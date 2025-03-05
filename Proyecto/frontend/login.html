@@ -9,9 +9,17 @@
 </head>
 <body>
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="card text-center p-4 shadow-sm" style="background: #f8d7da; border-radius: 15px;">
-            <div class="icon" style="font-size: 40px;">👥</div>
-            <form method="POST" action="../backend/login.php">
+        <div class="card text-center p-4 shadow-sm" style="background: #d4f8fd; border-radius: 15px; max-width: 400px; width: 100%; padding: 0;">
+            
+            <!-- Logo de la aplicación (Centrado y sin bordes) -->
+            <div class="mb-0 d-flex justify-content-center align-items-center" style="background: transparent;">
+                <img src="../frontend/img/StockFlowLogo.png" alt="StockFlow Logo" class="img-fluid" style="max-width: 400px; width: 100%; margin: 0; padding: 0; display: block;">
+            </div>
+
+            <!-- Icono de usuario -->
+            <div class="icon mt-3" style="font-size: 40px;">👥</div>
+
+            <form method="POST" action="../backend/login.php" class="p-3">
                 <h2 class="mb-4">Iniciar Sesión</h2>
                 <input type="email" name="email" placeholder="Email" class="form-control mb-3" required>
                 <input type="password" name="password" placeholder="Contraseña" class="form-control mb-3" required>

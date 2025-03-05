@@ -5,7 +5,13 @@ require 'verificar_permisos.php';
 
 // Verificar si el usuario tiene permiso para modificar roles
 if (!usuarioTienePermiso("modificar_roles")) {
-    die("Acceso denegado: No tienes permiso para gestionar roles.");
+    die("
+    <div class='error-container'>
+        <h2>🚫 Acceso Denegado</h2>
+        <p>No tienes permiso para gestionar roles.</p>
+    </div>
+    <link rel='stylesheet' href='../frontend/styles.css'>
+    ");
 }
 
 try {

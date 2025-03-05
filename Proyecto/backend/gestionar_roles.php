@@ -14,9 +14,9 @@ $permisos = json_decode($_POST['permisos'] ?? '[]', true);
 
 try {
     if ($accion === "crear") {
-        if (!usuarioTienePermiso("crear_roles")) {
+       /* if (!usuarioTienePermiso("crear_roles")) {
             die("error: No tienes permiso para crear roles.");
-        }
+        }*/
         
         if (empty($nombre) || empty($permisos)) {
             die("error: Todos los campos son obligatorios.");
@@ -40,9 +40,9 @@ try {
 
         echo "success: Rol creado exitosamente.";
     } elseif ($accion === "editar") {
-        if (!usuarioTienePermiso("modificar_roles")) {
+       /* if (!usuarioTienePermiso("modificar_roles")) {
             die("error: No tienes permiso para modificar roles.");
-        }
+        }*/
 
         if (empty($nombre) || empty($permisos) || !$id_rol) {
             die("error: Todos los campos son obligatorios.");
@@ -68,9 +68,9 @@ try {
 
         echo "success: Rol actualizado correctamente.";
     } elseif ($accion === "eliminar") {
-        if (!usuarioTienePermiso("modificar_roles")) {
+      /*  if (!usuarioTienePermiso("modificar_roles")) {
             die("error: No tienes permiso para eliminar roles.");
-        }
+        }*/
 
         // Asegurar que el rol no está en uso antes de eliminarlo
         $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM usuarios WHERE id_rol = ?");
@@ -87,23 +87,23 @@ try {
 
         echo "success: Rol eliminado correctamente.";
     } elseif ($accion === "obtener") {
-        if (!usuarioTienePermiso("modificar_roles")) {
-            die("error: No tienes permiso para ver roles.");
-        }
+      /*  if (!usuarioTienePermiso("modificar_roles")) {
+            die("error: No tienes permiso para modificar roles.");
+        }*/
 
         $stmt = $pdo->prepare("SELECT * FROM roles WHERE id_rol = ?");
         $stmt->execute([$id_rol]);
         $rol = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        
         $stmtPermisos = $pdo->prepare("SELECT id_permiso FROM roles_permisos WHERE id_rol = ?");
         $stmtPermisos->execute([$id_rol]);
         $rol['permisos'] = $stmtPermisos->fetchAll(PDO::FETCH_COLUMN);
 
         echo json_encode($rol);
     } elseif ($accion === "listar_permisos") {
-        if (!usuarioTienePermiso("modificar_roles")) {
+       /* if (!usuarioTienePermiso("modificar_roles")) {
             die("error: No tienes permiso para ver permisos.");
-        }
+        }*/
 
         $stmt = $pdo->query("SELECT id_permiso, nombre, descripcion FROM permisos");
         echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));

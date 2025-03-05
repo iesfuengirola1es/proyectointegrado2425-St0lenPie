@@ -54,7 +54,7 @@
 }
 
 .bienvenida-container h2 {
-    color: #0c0572;
+    color: #053172;
     font-size: 22px;
     margin-bottom: 10px;
 }
@@ -143,7 +143,7 @@
 }
 
 .btn-guardar {
-    background-color: #007bff;
+    background-color: #053172;
     border: none;
     border-radius: 5px;
     color: white;
@@ -167,7 +167,7 @@
 }
 
 .btn-guardar:hover {
-    background-color: #0056b3;
+    background-color: #053172;
 }
 
 .card .btn-submit {
@@ -233,7 +233,7 @@
     background: linear-gradient(to right, #656667, #d7d7c8);
     flex-grow: 1;
     height: 100vh;
-    margin-left: 250px; /* Deja espacio para la barra lateral */;
+    margin-left: 250px;
     overflow-y: auto;
     padding: 20px;
     transition: margin-left 0.3s ease;
@@ -243,7 +243,7 @@
     background: white;
     border-radius: 12px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-    margin: 50px auto; /* Centrar en la pantalla */;
+    margin: 50px auto;
     max-width: 600px;
     padding: 30px;
     text-align: center;
@@ -251,7 +251,7 @@
 }
 
 .dashboard-container h2, .dashboard-container h3 {
-    color: #6a0572;
+    color: #053172;
     margin-bottom: 15px;
 }
 
@@ -311,7 +311,7 @@
 }
 
 .form-emergente label {
-    color: #6a0572;
+    color: #050772;
     font-size: 14px;
     font-weight: bold;
 }
@@ -342,12 +342,12 @@
 }
 
 .form-popup button:first-of-type {
-    background-color: #007bff;
+    background-color: #053172;
     color: white;
 }
 
 .form-popup button:first-of-type:hover {
-    background-color: #0056b3;
+    background-color: #053172;
 }
 
 .form-popup input {
@@ -381,7 +381,7 @@
 }
 
 .form-producto h3 {
-    color: #6a0572;
+    color: #051072;
     margin-bottom: 20px;
 }
 
@@ -463,7 +463,7 @@
 }
 
 .input-group label {
-    color: #6a0572;
+    color: #150572;
     font-size: 14px;
     font-weight: bold;
     margin-bottom: -5px;
@@ -570,7 +570,7 @@
 
 .sidebar {
     align-items: center;
-    background: linear-gradient(to bottom, #07127c, #506ba4);
+    background: linear-gradient(to bottom, #053172, #506ba4);
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -604,7 +604,7 @@
 }
 
 .tabla-estilo th {
-    background-color: #6a0572;
+    background-color: #053172;
     color: white;
     font-weight: bold;
 }
@@ -624,7 +624,7 @@
 }
 
 .tabla-inventario th {
-    background-color: #6a0572;
+    background-color: #053172;
     color: white;
     font-weight: bold;
 }
@@ -644,7 +644,7 @@
 }
 
 .tabla-servicios th {
-    background-color: #6a0572;
+    background-color: #053172;
     color: white;
     font-weight: bold;
 }
@@ -662,13 +662,13 @@
 }
 
 .titulo-seccion {
-    color: #6a0572;
+    color: #053172;
     font-weight: bold;
     text-align: center;
 }
 
 .titulo-servicios {
-    color: #6a0572;
+    color: #053172;
     font-weight: bold;
     text-align: center;
 }
@@ -774,4 +774,42 @@ body {
     min-width: 100px; /* Ancho mínimo */
     max-width: 120px; /* Evita que crezcan demasiado */
     height: 40px; /* Altura fija para que no se desajusten */
+}
+
+/* Estilos para el mensaje de acceso denegado */
+.error-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #ffdddd;
+    border: 1px solid #ff5c5c;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.error-container h2 {
+    color: #d9534f;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.error-container p {
+    color: #333;
+    font-size: 16px;
+}
+
+.btn-volver {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #d9534f;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.btn-volver:hover {
+    background: #c9302c;
 }

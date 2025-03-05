@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+/*document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ Script `personas.js` cargado correctamente.");
 
     let botonesGuardar = document.querySelectorAll(".botonGuardarRol");
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(asignarEventosBotonesGuardar, 1000); // Esperar un segundo para asegurar la carga
 });
 
-
+*/
 function mostrarFormularioAgregar() {
     $("#formularioAgregar").show();
 
@@ -189,7 +189,8 @@ function guardarCambioRol(usuarioID) {
     $.post("../backend/gestionar_personas.php", {
         accion: "cambiar_rol",
         id_usuario: usuarioID,
-        id_rol: nuevoRol
+        id_rol: nuevoRol,
+        id_empresa:obtenerGrupoId()
     }, function(response) {
         console.log("🟢 Respuesta del servidor al cambiar rol:", response);
 

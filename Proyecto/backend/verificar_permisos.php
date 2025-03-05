@@ -16,10 +16,11 @@ function usuarioTienePermiso($permiso) {
     global $pdo;
 
     $user_id = $_SESSION['user_id'];
+    $grupo_id = $_REQUEST['id_empresa'] ?? null;
 
     // Obtener el rol del usuario
-    $stmt = $pdo->prepare("SELECT id_rol FROM usuarios WHERE id_usuario = ?");
-    $stmt->execute([$user_id]);
+    $stmt = $pdo->prepare("SELECT rol FROM usuarios_grupos WHERE id_usuario = ? AND id_empresa = ?");
+    $stmt->execute([$user_id, $grupo_id]);
     $id_rol = $stmt->fetchColumn();
 
     if (!$id_rol) {
@@ -48,7 +49,7 @@ function obtenerPermisosUsuario() {
     $user_id = $_SESSION['user_id'];
 
     // Obtener el rol del usuario
-    $stmt = $pdo->prepare("SELECT id_rol FROM usuarios WHERE id_usuario = ?");
+    $stmt = $pdo->prepare("SELECT rol FROM usuarios WHERE id_usuario = ?");
     $stmt->execute([$user_id]);
     $id_rol = $stmt->fetchColumn();
 
@@ -75,13 +76,15 @@ function obtenerPermisosUsuario() {
 function esAdministrador() {
     global $pdo;
     $user_id = $_SESSION['user_id'];
+    $grupo_id = $_GET['id_empresa'] ?? null;
 
     $stmt = $pdo->prepare("
         SELECT COUNT(*) 
-        FROM usuarios 
-        WHERE id_usuario = ? 
-        AND id_rol = (SELECT id_rol FROM roles WHERE nombre = 'Administrador')");
-    $stmt->execute([$user_id]);
+        FROM usuarios_grupos 
+        WHERE id_usuario = ? and 
+        AND id_empresa = ?
+        AND rol = (SELECT id_rol FROM roles WHERE nombre = 'Administrador')");
+    $stmt->execute([$user_id,$grupo_id]);
 
     return $stmt->fetchColumn() > 0;
 }

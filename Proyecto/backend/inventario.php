@@ -7,7 +7,15 @@ if (!isset($_SESSION['user_id'])) {
     die("Acceso no autorizado.");
 }
 
-$grupo_id = $_GET['id'] ?? null;
+// Verificar si el usuario tiene al menos un permiso de inventario
+if (!usuarioTienePermiso("crear_articulos") && 
+    !usuarioTienePermiso("editar_articulos") && 
+    !usuarioTienePermiso("eliminar_articulos") && 
+    !usuarioTienePermiso("gestionar_unidades")) {
+    die("Acceso denegado: No tienes permiso para gestionar el inventario.");
+}
+
+$grupo_id = $_GET['id_empresa'] ?? null;
 
 if (!$grupo_id) {
     die("Error: Grupo no especificado.");
@@ -125,6 +133,6 @@ try {
         <label for="unidadesVendidasProducto">Unidades Vendidas</label>
         <input type="number" id="unidadesVendidasProducto" placeholder="Unidades Vendidas" min="0">
     </div>
-    <button class="btn-guardar"  onclick="guardarProducto()">💾 Guardar</button>
+    <button class="btn-guardar"  id="botonGuardarProducto" onclick="guardarProducto()">💾 Guardar</button>
     <button class="btn-cancelar" onclick="cerrarFormulario()">❌ Cancelar</button>
 </div>

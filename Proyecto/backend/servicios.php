@@ -1,12 +1,26 @@
 <?php
 session_start();
 require 'config.php';
+require 'verificar_permisos.php';
 
 if (!isset($_SESSION['user_id'])) {
     die("Acceso no autorizado.");
 }
 
-$grupo_id = $_GET['id'] ?? null;
+// Verificar si el usuario tiene al menos un permiso relacionado con servicios
+if (!usuarioTienePermiso("crear_servicios") && 
+    !usuarioTienePermiso("editar_servicios") && 
+    !usuarioTienePermiso("eliminar_servicios")) {
+    die("
+    <div class='error-container'>
+        <h2>🚫 Acceso Denegado</h2>
+        <p>No tienes permiso para gestionar servicios.</p>
+    </div>
+    <link rel='stylesheet' href='../frontend/styles.css'>
+    ");
+}
+
+$grupo_id = $_GET['id_empresa'] ?? null;
 
 if (!$grupo_id) {
     die("Error: Grupo no especificado.");

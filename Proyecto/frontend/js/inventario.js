@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+/*document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ Script `inventario.js` cargado correctamente.");
 
     setTimeout(() => {
@@ -14,8 +14,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }, 1000); // Espera 1 segundo para asegurarse de que el botón ya está cargado
 });
-
-
+*/
+/*
 
 function cargarSeccion(seccion) {
     $(".content-area").html("<h2>Cargando " + seccion + "...</h2>");
@@ -23,7 +23,7 @@ function cargarSeccion(seccion) {
         $(".content-area").html(data);
     });
 }
-
+*/
 function mostrarFormulario() {
     $("#formularioProducto").show();
     $("#tituloFormulario").text("Añadir Producto");
@@ -36,14 +36,14 @@ function mostrarFormulario() {
     $("#unidadesVendidasProducto").val("");
 
         // Asegurar que el botón de guardar tenga un evento asociado
-    let botonGuardar = document.getElementById("botonGuardarProducto");
+    /*let botonGuardar = document.getElementById("botonGuardarProducto");
     if (botonGuardar) {
         botonGuardar.removeEventListener("click", guardarProducto); // Elimina eventos duplicados
         botonGuardar.addEventListener("click", guardarProducto);
         console.log("🟢 Evento de Guardar asignado al mostrar el formulario.");
     } else {
         console.error("❌ No se encontró el botón de Guardar dentro del formulario.");
-    }
+    }*/
 }
 
 function cerrarFormulario() {
@@ -97,7 +97,7 @@ function guardarProducto() {
 function editarProducto(id) {
     console.log("🟡 Solicitando datos para editar el producto con ID:", id);
 
-    $.get("../backend/gestionar_articulo.php", { accion: "obtener", id: id }, function(data) {
+    $.get("../backend/gestionar_articulo.php", { accion: "obtener", id: id,id_empresa:obtenerGrupoId() }, function(data) {
         let producto;
         try {
             producto = JSON.parse(data);
@@ -145,7 +145,8 @@ function editarProducto(id) {
 function eliminarProducto(id) {
     if (!confirm("¿Estás seguro de eliminar este producto?")) return;
 
-    $.post("../backend/gestionar_articulo.php", { accion: "eliminar", id: id }, function(response) {
+    $.post("../backend/gestionar_articulo.php", { accion: "eliminar", id: id,
+        id_empresa: obtenerGrupoId() }, function(response) {
         if (response.includes("error:")) {
             mostrarMensaje(response.replace("error:", ""), "error");
         } else {
@@ -165,7 +166,8 @@ function actualizarUnidadesVendidas(id) {
     $.post("../backend/gestionar_articulo.php", {
         accion: "actualizar_unidades",
         id: id,
-        unidades_vendidas: nuevasUnidades
+        unidades_vendidas: nuevasUnidades,
+        id_empresa: obtenerGrupoId()
     }, function (response) {
         console.log("🟢 Respuesta del servidor al actualizar unidades:", response);
         if (response.includes("error:")) {

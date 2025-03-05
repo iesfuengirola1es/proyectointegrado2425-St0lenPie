@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function cargarSeccion(seccion) {
     $(".content-area").html("<h2>Cargando " + seccion + "...</h2>");
-    $.get("../backend/" + seccion + ".php?id=" + obtenerGrupoId(), function(data) {
+    $.get("../backend/" + seccion + ".php?id_empresa=" + obtenerGrupoId(), function(data) {
         $(".content-area").html(data);
     }).fail(function() {
         $(".content-area").html("<h2>Error al cargar la sección " + seccion + ".</h2>");
@@ -29,5 +29,14 @@ function obtenerGrupoId() {
 }
 
 function cerrarSesion() {
-    window.location.href = "../frontend/login.html";
+    fetch('../backend/logout.php', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = "../frontend/login.html";
+            } else {
+                console.error("❌ Error al cerrar sesión:", data.error);
+            }
+        })
+        .catch(error => console.error("❌ Error en la solicitud de cierre de sesión:", error));
 }

@@ -35,8 +35,13 @@ try {
         $id_rol_asignado = ($id_usuario == $id_creador) ? 1 : 2;
     
         // Asignar el grupo y el rol al usuario
-        $stmt = $pdo->prepare("UPDATE usuarios SET id_empresa = ?, id_rol = ? WHERE id_usuario = ?");
-        $stmt->execute([$id_empresa, $id_rol_asignado, $id_usuario]);
+       /* $stmt = $pdo->prepare("UPDATE usuarios SET id_empresa = ?, id_rol = ? WHERE id_usuario = ?");
+        $stmt->execute([$id_empresa, $id_rol_asignado, $id_usuario]);*/
+
+// Insertar relación en usuarios_grupos con el rol de creador
+    $stmt = $pdo->prepare("INSERT INTO usuarios_grupos (id_usuario, id_empresa, rol) VALUES (?, ?, ?)");
+    $stmt->execute([$id_usuario, $id_empresa,$id_rol_asignado]);
+
     
         error_log("🟢 Usuario ID $id_usuario agregado al grupo ID $id_empresa con rol ID $id_rol_asignado.");
         echo "success: Usuario agregado al grupo con rol asignado.";
@@ -51,9 +56,14 @@ try {
             die("error: No puedes eliminar al creador del grupo.");
         }
 
-        $stmt = $pdo->prepare("UPDATE usuarios SET id_empresa = NULL WHERE id_usuario = ?");
-        $stmt->execute([$id_usuario]);
+      /*  $stmt = $pdo->prepare("UPDATE usuarios SET id_empresa = NULL WHERE id_usuario = ?");
+        $stmt->execute([$id_usuario]);*/
+$stmt = $pdo->prepare("delete usuarios_grupos where id_empresa = ? and id_usuario = ? ");
+        $stmt->execute([$id_empresa,$id_usuario]);
+
         echo "success: Usuario eliminado del grupo.";
+
+
     } elseif ($accion === "cambiar_rol") {
         error_log("🟡 Solicitud de cambio de rol recibida en gestionar_personas.php");
         error_log("🔍 Datos recibidos: " . print_r($_POST, true));
@@ -67,8 +77,8 @@ try {
     
         error_log("🔹 ID Usuario: $id_usuario - Nuevo ID Rol: $id_rol");
     
-        $stmt = $pdo->prepare("UPDATE usuarios SET id_rol = ? WHERE id_usuario = ?");
-        $resultado = $stmt->execute([$id_rol, $id_usuario]);
+        $stmt = $pdo->prepare("UPDATE usuarios_grupos SET rol = ? WHERE id_usuario = ? and id_empresa=?");
+        $resultado = $stmt->execute([$id_rol, $id_usuario,$id_empresa]);
     
         if ($resultado) {
             error_log("🟢 Rol del usuario ID $id_usuario actualizado a ID de rol $id_rol.");
