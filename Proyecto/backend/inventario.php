@@ -1,4 +1,57 @@
 <?php
+
+/**
+ * Módulo: Gestión del Inventario
+ * 
+ * Este script genera la interfaz de gestión del inventario para una empresa.
+ * Permite a los usuarios con permisos adecuados visualizar, agregar, editar y eliminar productos,
+ * además de gestionar unidades vendidas y recibir alertas de stock bajo.
+ *
+ * Ejemplo de llamada:
+ * -------------------
+ * fetch('inventario.php', {
+ *     method: 'GET',
+ *     headers: { 'Content-Type': 'application/json' }
+ * }).then(response => response.text()).then(data => console.log(data));
+ *
+ * Argumentos:
+ * -----------
+ * Entrada:
+ * - `$_SESSION['user_id']` (int) → ID del usuario autenticado, requerido para validar permisos.
+ * - `$_SESSION['id_empresa']` (int) → ID del grupo al que pertenece el usuario, necesario para cargar el inventario.
+ *
+ * Salida:
+ * - Renderiza una página con la tabla de productos y controles de gestión.
+ * - Incluye alertas de stock bajo si existen productos con stock menor o igual al nivel mínimo.
+ * - Muestra opciones de edición y eliminación solo si el usuario tiene los permisos correspondientes.
+ * - Muestra un formulario para agregar o editar productos si el usuario tiene permiso.
+ * - Incluye un sistema de actualización de unidades vendidas para cada producto.
+ *
+ * Módulos relacionados:
+ * ---------------------
+ * - `config.php` → Contiene la configuración de conexión a la base de datos.
+ * - `verificar_permisos.php` → Contiene la función `usuarioTienePermiso()` para validar permisos.
+ * - `productos` (tabla) → Contiene la información de los productos.
+ * - `usuarios_grupos` (tabla) → Relaciona usuarios con grupos y roles.
+ * - `empresa` (tabla) → Contiene los datos de los grupos empresariales.
+ *
+ * Flujo de datos interno:
+ * -----------------------
+ * 1. Se inicia la sesión y se verifica que el usuario esté autenticado (`$_SESSION['user_id']`).
+ * 2. Se valida que el usuario tenga al menos un permiso de gestión de inventario.
+ * 3. Se obtiene el ID de la empresa del usuario (`$_SESSION['id_empresa']`).
+ * 4. Se consultan los productos de la empresa desde la base de datos.
+ * 5. Se consultan los productos con stock bajo y se generan alertas si es necesario.
+ * 6. Se obtienen los usuarios del grupo y sus roles.
+ * 7. Se renderiza una tabla de inventario con opciones de:
+ *    - Visualización de productos.
+ *    - Edición de productos (si el usuario tiene permiso).
+ *    - Eliminación de productos (si el usuario tiene permiso).
+ *    - Actualización de unidades vendidas.
+ * 8. Se muestra un formulario para agregar o editar productos.
+ * 9. Se incluye una sección de alertas de stock bajo.
+ */
+
 session_start();
 require 'config.php';
 require 'verificar_permisos.php';

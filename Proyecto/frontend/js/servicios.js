@@ -1,3 +1,45 @@
+/**
+ * Módulo: Gestión de Servicios
+ * 
+ * Este script permite la administración de los servicios dentro de un grupo empresarial.
+ * Los usuarios pueden agregar, editar y eliminar servicios.
+ *
+ * Ejemplo de llamada:
+ * -------------------
+ * mostrarFormularioServicio(); // Muestra el formulario para agregar un nuevo servicio.
+ * guardarServicio(); // Guarda un nuevo servicio o edita uno existente.
+ * editarServicio(1); // Carga los datos del servicio con ID 1 para su edición.
+ * eliminarServicio(2); // Elimina el servicio con ID 2 tras confirmación del usuario.
+ *
+ * Funcionalidades principales:
+ * ----------------------------
+ * - `mostrarFormularioServicio()`: Muestra el formulario para agregar un nuevo servicio.
+ * - `cerrarFormularioServicio()`: Oculta el formulario de servicios.
+ * - `guardarServicio()`: Guarda un nuevo servicio o edita uno existente en la base de datos.
+ * - `editarServicio(id)`: Carga los datos de un servicio específico para su edición.
+ * - `eliminarServicio(id)`: Elimina un servicio tras confirmación del usuario.
+ *
+ * Dependencias:
+ * -------------
+ * - `gestionar_servicio.php` → Backend para manejar la gestión de servicios.
+ * - jQuery (`$`) → Se utiliza para manejar eventos y solicitudes AJAX.
+ *
+ * Flujo de datos interno:
+ * -----------------------
+ * 1. **Creación y edición de servicios (`guardarServicio`)**:
+ *    - Determina si la acción es "crear" o "editar" según la presencia de un ID de servicio.
+ *    - Valida que los campos obligatorios estén completos.
+ *    - Envía la solicitud `POST` a `gestionar_servicio.php` con los datos del servicio.
+ *    - Si la operación es exitosa, recarga la sección de servicios y cierra el formulario.
+ * 2. **Carga de servicio para edición (`editarServicio`)**:
+ *    - Obtiene los datos del servicio desde `gestionar_servicio.php` con la acción `obtener`.
+ *    - Llena el formulario con la información del servicio.
+ * 3. **Eliminación de servicios (`eliminarServicio`)**:
+ *    - Solicita confirmación al usuario antes de eliminar un servicio.
+ *    - Realiza una solicitud `POST` a `gestionar_servicio.php` con la acción `eliminar`.
+ *    - Si la operación es exitosa, recarga la sección de servicios.
+ */
+
 function mostrarFormularioServicio() {
     $("#formularioServicio").show();
     $("#tituloFormularioServicio").text("Añadir Servicio");

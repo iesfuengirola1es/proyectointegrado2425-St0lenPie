@@ -1,4 +1,49 @@
 <?php
+
+/**
+ * Módulo: Gestión de Servicios
+ * 
+ * Este script permite a los usuarios con permisos adecuados visualizar, agregar, editar y eliminar servicios en un grupo empresarial.
+ *
+ * Ejemplo de llamada:
+ * -------------------
+ * fetch('servicios.php?id_empresa=1', {
+ *     method: 'GET',
+ *     headers: { 'Content-Type': 'application/json' }
+ * }).then(response => response.text()).then(data => console.log(data));
+ *
+ * Argumentos:
+ * -----------
+ * Entrada:
+ * - `$_SESSION['user_id']` (int) → ID del usuario autenticado. Obligatorio.
+ * - `id_empresa` (int) → ID del grupo empresarial. Obligatorio.
+ * - Se requiere que el usuario tenga al menos uno de los permisos: "crear_servicios", "editar_servicios" o "eliminar_servicios".
+ *
+ * Salida:
+ * - Renderiza una tabla con la lista de servicios del grupo.
+ * - Incluye opciones para agregar, editar y eliminar servicios si el usuario tiene los permisos correspondientes.
+ * - Si el usuario no tiene permisos suficientes, muestra un mensaje de acceso denegado.
+ * - Si ocurre un error en la base de datos, se muestra el mensaje `Error al obtener servicios: <mensaje>`.
+ *
+ * Módulos relacionados:
+ * ---------------------
+ * - `config.php` → Contiene la configuración de conexión a la base de datos.
+ * - `verificar_permisos.php` → Contiene la función `usuarioTienePermiso()` para validar permisos.
+ * - `servicios` (tabla) → Contiene la información de los servicios de cada empresa.
+ *
+ * Flujo de datos interno:
+ * -----------------------
+ * 1. Se inicia la sesión y se verifica que el usuario esté autenticado (`$_SESSION['user_id']`).
+ * 2. Se valida que el usuario tenga al menos uno de los permisos necesarios para gestionar servicios.
+ * 3. Se recibe y valida el parámetro `id_empresa` de la URL.
+ * 4. Se consultan los servicios existentes en la base de datos.
+ * 5. Se genera una tabla con los servicios registrados:
+ *    - Muestra el nombre, la descripción y el precio de cada servicio.
+ *    - Si el usuario tiene permisos, puede agregar, editar y eliminar servicios.
+ * 6. Se incluye un formulario emergente para agregar o editar servicios.
+ * 7. Se retornan mensajes de error si el usuario no tiene permisos o si ocurre un fallo en la base de datos.
+ */
+
 session_start();
 require 'config.php';
 require 'verificar_permisos.php';

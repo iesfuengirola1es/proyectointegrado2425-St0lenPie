@@ -1,4 +1,58 @@
 <?php
+
+/**
+ * Módulo: Gestión de Artículos
+ * 
+ * Este script permite la gestión de artículos en la base de datos. Los usuarios pueden crear, editar,
+ * obtener información, eliminar artículos y actualizar unidades vendidas. 
+ * Se requiere autenticación y permisos específicos para cada acción.
+ *
+ * Ejemplo de llamada:
+ * -------------------
+ * fetch('gestionar_articulo.php', {
+ *     method: 'POST',
+ *     body: new URLSearchParams({ accion: 'crear', nombre: 'Laptop', precio: 500, stock: 10, nivel_minimo: 2, id_empresa: 1 }),
+ *     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+ * }).then(response => response.json()).then(data => console.log(data));
+ *
+ * Argumentos:
+ * -----------
+ * Entrada:
+ * - `accion` (string) → Acción a realizar. Posibles valores: "crear", "editar", "obtener", "eliminar", "actualizar_unidades".
+ * - `id_producto` (int) → ID del producto a gestionar (obligatorio para "editar", "obtener", "eliminar", "actualizar_unidades").
+ * - `nombre` (string) → Nombre del producto. Obligatorio para "crear" y "editar".
+ * - `descripcion` (string) → Descripción del producto (opcional).
+ * - `precio` (float) → Precio del producto. Obligatorio para "crear" y "editar".
+ * - `stock` (int) → Cantidad disponible del producto. Obligatorio para "crear" y "editar".
+ * - `nivel_minimo` (int) → Nivel mínimo de stock antes de alerta. Obligatorio para "crear" y "editar".
+ * - `unidades_vendidas` (int) → Unidades vendidas del producto. Obligatorio para "actualizar_unidades".
+ * - `id_empresa` (int) → ID de la empresa a la que pertenece el producto. Obligatorio para "crear".
+ * - `$_SESSION['user_id']` (int) → ID del usuario autenticado, requerido para validar permisos.
+ *
+ * Salida:
+ * - `{"success": "Mensaje de éxito."}` → Si la operación fue exitosa.
+ * - `{"error": "Mensaje de error."}` → Si ocurrió un error o no se tienen permisos suficientes.
+ *
+ * Módulos relacionados:
+ * ---------------------
+ * - `config.php` → Contiene la configuración de conexión a la base de datos.
+ * - `verificar_permisos.php` → Contiene funciones para validar permisos del usuario.
+ * - `productos` (tabla) → Contiene la información de los productos.
+ * - `usuarios_grupos` (tabla) → Relaciona usuarios con permisos sobre productos.
+ *
+ * Flujo de datos interno:
+ * -----------------------
+ * 1. Se inicia la sesión y se verifica la autenticación del usuario (`$_SESSION['user_id']`).
+ * 2. Se valida que se haya recibido una acción válida en `$_POST['accion']` o `$_GET['accion']`.
+ * 3. Dependiendo de la acción recibida:
+ *    - **"crear"**: Verifica permisos, revisa si el producto ya existe en la empresa, y lo inserta en la base de datos.
+ *    - **"editar"**: Verifica permisos, actualiza los datos del producto en la base de datos.
+ *    - **"obtener"**: Verifica permisos y devuelve la información de un producto específico en formato JSON.
+ *    - **"eliminar"**: Verifica permisos y elimina un producto de la base de datos.
+ *    - **"actualizar_unidades"**: Verifica permisos y actualiza las unidades vendidas de un producto.
+ * 4. Se retornan mensajes en formato JSON indicando éxito o error en la operación.
+ */
+
 session_start();
 require 'config.php';
 require 'verificar_permisos.php';

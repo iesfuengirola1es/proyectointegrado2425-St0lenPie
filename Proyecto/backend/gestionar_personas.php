@@ -1,4 +1,74 @@
 <?php
+
+/**
+ * Módulo: Gestión de Usuarios en un Grupo
+ * 
+ * Este script permite a los administradores buscar usuarios, agregarlos a un grupo, eliminarlos y cambiar sus roles.
+ * Se requiere autenticación y permisos específicos para cada acción.
+ *
+ * Ejemplo de llamada:
+ * -------------------
+ * fetch('gestionar_personas.php', {
+ *     method: 'POST',
+ *     body: new URLSearchParams({ accion: 'agregar_usuario', id_usuario: 5, id_empresa: 1 }),
+ *     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+ * }).then(response => response.text()).then(data => console.log(data));
+ *
+ * Argumentos:
+ * -----------
+ * Entrada:
+ * - `accion` (string) → Acción a realizar. Posibles valores:
+ *   - "buscar_usuarios" → Buscar usuarios por correo.
+ *   - "agregar_usuario" → Agregar un usuario a un grupo.
+ *   - "eliminar_usuario" → Eliminar un usuario de un grupo.
+ *   - "cambiar_rol" → Cambiar el rol de un usuario dentro de un grupo.
+ * - `id_usuario` (int) → ID del usuario a gestionar (requerido para agregar, eliminar o cambiar rol).
+ * - `id_empresa` (int) → ID del grupo en el que se gestiona el usuario (requerido para todas las acciones excepto "buscar_usuarios").
+ * - `email` (string) → Email del usuario a buscar (solo para "buscar_usuarios").
+ * - `id_rol` (int) → ID del nuevo rol a asignar al usuario (requerido para "cambiar_rol").
+ * - `$_SESSION['user_id']` (int) → ID del usuario autenticado, requerido para validar permisos.
+ *
+ * Salida:
+ * - `success: Usuario agregado al grupo con rol asignado.` → Si el usuario se agrega correctamente.
+ * - `success: Usuario eliminado correctamente.` → Si el usuario es eliminado del grupo.
+ * - `success: Rol cambiado correctamente.` → Si el rol del usuario se actualiza.
+ * - `error: No tienes permiso para realizar esta acción.` → Si el usuario no tiene permisos suficientes.
+ * - `error: El usuario ya pertenece al grupo.` → Si el usuario ya es miembro del grupo.
+ * - `error: No puedes eliminar/modificar al creador del grupo.` → Restricción para el creador del grupo.
+ * - `error: Acción no válida.` → Si la acción recibida no es reconocida.
+ * - `error: Error en la operación: <mensaje>` → Si ocurre un fallo en la base de datos.
+ *
+ * Módulos relacionados:
+ * ---------------------
+ * - `config.php` → Contiene la configuración de conexión a la base de datos.
+ * - `verificar_permisos.php` → Contiene la función `usuarioTienePermiso()` para validar permisos.
+ * - `usuarios` (tabla) → Almacena la información de los usuarios.
+ * - `usuarios_grupos` (tabla) → Relaciona usuarios con grupos y roles.
+ * - `empresa` (tabla) → Contiene los datos de los grupos empresariales.
+ * - `roles` (tabla) → Contiene la lista de roles del sistema.
+ *
+ * Flujo de datos interno:
+ * -----------------------
+ * 1. Se inicia la sesión y se verifica que el usuario esté autenticado (`$_SESSION['user_id']`).
+ * 2. Se recibe y valida la acción `accion` enviada en la petición.
+ * 3. Dependiendo de la acción recibida:
+ *    - **"buscar_usuarios"**: Busca usuarios en la base de datos filtrando por email.
+ *    - **"agregar_usuario"**: 
+ *       - Verifica permisos.
+ *       - Revisa si el usuario ya pertenece al grupo.
+ *       - Asigna el rol predeterminado y lo agrega a la tabla `usuarios_grupos`.
+ *    - **"eliminar_usuario"**:
+ *       - Verifica permisos.
+ *       - Revisa que el usuario no sea el creador del grupo.
+ *       - Elimina la relación en `usuarios_grupos`.
+ *    - **"cambiar_rol"**:
+ *       - Verifica permisos.
+ *       - Revisa que el usuario no sea el creador del grupo.
+ *       - Actualiza el rol en `usuarios_grupos`.
+ * 4. Se retornan mensajes en formato JSON indicando éxito o error en la operación.
+ */
+
+
 session_start();
 require 'config.php';
 require 'verificar_permisos.php';

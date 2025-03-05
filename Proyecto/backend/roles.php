@@ -1,4 +1,51 @@
 <?php
+
+/**
+ * Módulo: Gestión de Roles y Permisos
+ * 
+ * Este script permite a los administradores visualizar, crear, editar y eliminar roles en el sistema.
+ * Solo los usuarios con el permiso "modificar_roles" pueden acceder a esta sección.
+ *
+ * Ejemplo de llamada:
+ * -------------------
+ * fetch('roles.php', {
+ *     method: 'GET',
+ *     headers: { 'Content-Type': 'application/json' }
+ * }).then(response => response.text()).then(data => console.log(data));
+ *
+ * Argumentos:
+ * -----------
+ * Entrada:
+ * - `$_SESSION['user_id']` (int) → ID del usuario autenticado. Obligatorio.
+ * - Se requiere que el usuario tenga el permiso "modificar_roles" para acceder.
+ *
+ * Salida:
+ * - Renderiza una página con una lista de roles y sus permisos.
+ * - Incluye opciones para editar y eliminar roles, excepto aquellos protegidos como "Administrador" y "Usuario Nuevo".
+ * - Si el usuario no tiene permisos suficientes, muestra un mensaje de acceso denegado.
+ * - Si ocurre un error en la base de datos, se muestra el mensaje `Error al obtener datos: <mensaje>`.
+ *
+ * Módulos relacionados:
+ * ---------------------
+ * - `config.php` → Contiene la configuración de conexión a la base de datos.
+ * - `verificar_permisos.php` → Contiene la función `usuarioTienePermiso()` para validar permisos.
+ * - `roles` (tabla) → Contiene la lista de roles disponibles en el sistema.
+ * - `permisos` (tabla) → Contiene la lista de permisos del sistema.
+ * - `roles_permisos` (tabla) → Relaciona roles con permisos específicos.
+ *
+ * Flujo de datos interno:
+ * -----------------------
+ * 1. Se inicia la sesión y se verifica que el usuario esté autenticado (`$_SESSION['user_id']`).
+ * 2. Se valida que el usuario tenga el permiso "modificar_roles" para acceder a la gestión de roles.
+ * 3. Se consultan los roles existentes en la base de datos.
+ * 4. Se consultan los permisos disponibles en la base de datos.
+ * 5. Se genera una tabla con los roles registrados:
+ *    - Muestra el nombre del rol.
+ *    - Si el usuario tiene permisos, puede editar y eliminar roles (excepto los protegidos).
+ * 6. Se incluye un formulario emergente para crear o editar roles con selección de permisos.
+ * 7. Se retornan mensajes de error si el usuario no tiene permisos o si ocurre un fallo en la base de datos.
+ */
+
 session_start();
 require 'config.php';
 require 'verificar_permisos.php';
