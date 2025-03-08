@@ -65,7 +65,12 @@ if (!usuarioTienePermiso("crear_articulos") &&
     !usuarioTienePermiso("editar_articulos") && 
     !usuarioTienePermiso("eliminar_articulos") && 
     !usuarioTienePermiso("gestionar_unidades")) {
-    die("Acceso denegado: No tienes permiso para gestionar el inventario.");
+    die("<div class='error-container'>
+        <h2>🚫 Acceso Denegado</h2>
+        <p>No tienes permiso para gestionar el inventario.</p>
+    </div>
+    <link rel='stylesheet' href='../frontend/styles.css'>
+    ");
 }
 
 $grupo_id = $_SESSION['id_empresa'] ?? null;
@@ -81,7 +86,7 @@ try {
     $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Obtener productos con stock bajo
-    $stmtAlertas = $pdo->prepare("SELECT nombre FROM productos WHERE id_empresa = ? AND (stock-unidades_vendidas) <= nivel_minimo");
+    $stmtAlertas = $pdo->prepare("SELECT nombre FROM productos WHERE id_empresa = ? AND (stock) <= nivel_minimo");
     $stmtAlertas->execute([$grupo_id]);
     $alertas = $stmtAlertas->fetchAll(PDO::FETCH_ASSOC);
 
